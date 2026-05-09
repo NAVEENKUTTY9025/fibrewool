@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, viewport-fit=cover">
+    <meta name="description" content="Login to Wool & Fiber Mill - Access your account, track orders, and manage your fiber projects.">
+    <title>Login | Wool & Fiber Mill - Account Access</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0F0F0F;
+            --white: #FFFFFF;
+            --accent: #7f0371bb;
+            --accent-solid: #7f0371;
+            --accent-deep: #5a0250;
+            --accent-soft: rgba(127, 3, 113, 0.12);
+            --bg-main: #FFFFFF;
+            --bg-alt: #FCF9F5;
+            --text-heading: #0F0F0F;
+            --text-body: #2C2C2C;
+            --text-light: #6B6B6B;
+            --border-light: 1px solid rgba(127, 3, 113, 0.2);
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+            --input-bg: #FFFFFF;
+            --input-border: #E0E0E0;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0F0F0F;
+            --bg-alt: #181818;
+            --text-heading: #FFFFFF;
+            --text-body: #E4E4E4;
+            --text-light: #AEAEAE;
+            --border-light: 1px solid rgba(127, 3, 113, 0.35);
+            --input-bg: #1E1E1E;
+            --input-border: #333333;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-alt) 0%, var(--bg-main) 100%);
+            color: var(--text-body);
+            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Main Container - Fixed, No Scroll */
+        .login-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Logo - Top Left Corner (same as service.html) */
+        .logo-top {
+            position: fixed;
+            top: 28px;
+            left: 28px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        [dir="rtl"] .logo-top {
+            left: auto;
+            right: 28px;
+        }
+
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+            background: var(--accent);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.25s;
+        }
+        .logo-icon i {
+            color: white;
+            font-size: 24px;
+        }
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+        .logo-text span {
+            color: var(--accent-solid);
+        }
+
+        /* Theme & RTL Buttons - Top Right Corner */
+        .controls-wrapper {
+            position: fixed;
+            top: 28px;
+            right: 28px;
+            z-index: 100;
+            display: flex;
+            gap: 12px;
+        }
+
+        [dir="rtl"] .controls-wrapper {
+            right: auto;
+            left: 28px;
+        }
+
+        .control-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--accent-soft);
+            border: 1px solid rgba(127, 3, 113, 0.2);
+            border-radius: 40px;
+            color: var(--text-heading);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .control-btn:hover {
+            background: var(--accent-solid);
+            color: white;
+            transform: scale(1.05);
+            border-color: var(--accent-solid);
+        }
+
+        /* Login Card - Tight Content */
+        .login-card {
+            background: var(--bg-main);
+            border-radius: 48px;
+            width: 100%;
+            max-width: 440px;
+            padding: 40px 36px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(127, 3, 113, 0.15);
+            transition: all 0.3s ease;
+            margin: 20px;
+        }
+
+        /* Title */
+        .login-title {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .login-title h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+        }
+        .login-title p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 22px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-heading);
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            pointer-events: none;
+        }
+        [dir="rtl"] .input-wrapper i {
+            left: auto;
+            right: 16px;
+        }
+        .input-wrapper input {
+            width: 100%;
+            padding: 13px 16px 13px 44px;
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-body);
+            transition: all 0.2s ease;
+        }
+        [dir="rtl"] .input-wrapper input {
+            padding: 13px 44px 13px 16px;
+        }
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--accent-solid);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        /* Password Row & Actions - FIXED: horizontal alignment */
+        .password-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .password-header label {
+            margin-bottom: 0;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-heading);
+        }
+        .forgot-link {
+            color: var(--accent-solid);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: 0.2s;
+            letter-spacing: -0.2px;
+        }
+        .forgot-link:hover {
+            text-decoration: underline;
+            opacity: 0.85;
+        }
+
+        /* Remember & Forgot wrapper - aligned in straight line */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 6px 0 28px 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .remember-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .remember-wrapper input {
+            width: 17px;
+            height: 17px;
+            accent-color: var(--accent-solid);
+            margin: 0;
+            cursor: pointer;
+        }
+        .remember-wrapper label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-body);
+            cursor: pointer;
+            user-select: none;
+        }
+        .forgot-action {
+            margin: 0;
+        }
+        .forgot-action .forgot-link {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Login Button */
+        .login-btn {
+            width: 100%;
+            padding: 13px;
+            background: var(--accent);
+            border: none;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .login-btn:hover {
+            background: var(--accent-deep);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(127, 3, 113, 0.25);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 28px 0 20px;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(127, 3, 113, 0.2);
+        }
+        .divider span {
+            padding: 0 14px;
+            color: var(--text-light);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* Social Login */
+        .social-login {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+        .social-btn {
+            flex: 1;
+            padding: 11px 0;
+            background: transparent;
+            border: 1.5px solid rgba(127, 3, 113, 0.2);
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-body);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .social-btn:hover {
+            border-color: var(--accent-solid);
+            background: var(--accent-soft);
+            transform: translateY(-2px);
+        }
+        .social-btn i {
+            font-size: 1.05rem;
+        }
+        .social-btn.google i { color: #DB4437; }
+        .social-btn.facebook i { color: #4267B2; }
+
+        /* Register Link */
+        .register-link {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        .register-link a {
+            color: var(--accent-solid);
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* RTL Specific Adjustments */
+        [dir="rtl"] .input-wrapper i {
+            left: auto;
+            right: 16px;
+        }
+        [dir="rtl"] .form-actions {
+            flex-direction: row-reverse;
+        }
+        [dir="rtl"] .remember-wrapper {
+            flex-direction: row-reverse;
+        }
+        [dir="rtl"] .password-header {
+            flex-direction: row-reverse;
+        }
+
+        /* Responsive */
+        @media (max-width: 560px) {
+            .logo-top {
+                top: 16px;
+                left: 16px;
+            }
+            [dir="rtl"] .logo-top {
+                left: auto;
+                right: 16px;
+            }
+            .logo-icon {
+                width: 38px;
+                height: 38px;
+            }
+            .logo-icon i {
+                font-size: 18px;
+            }
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            .controls-wrapper {
+                top: 16px;
+                right: 16px;
+            }
+            [dir="rtl"] .controls-wrapper {
+                right: auto;
+                left: 16px;
+            }
+            .control-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+            .login-card {
+                padding: 28px 22px;
+                margin: 16px;
+                max-width: 94%;
+            }
+            .login-title h1 {
+                font-size: 1.6rem;
+            }
+            .social-btn span {
+                display: inline-block;
+            }
+            .social-btn {
+                padding: 10px 0;
+            }
+            .form-actions {
+                margin-bottom: 24px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .social-btn span {
+                display: none;
+            }
+            .social-btn {
+                padding: 11px;
+            }
+            .social-btn i {
+                margin: 0;
+            }
+        }
+
+        /* Smooth remove tap highlight */
+        button, .control-btn, .social-btn, .login-btn {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Left Logo -->
+    <a href="index.html" class="logo-top">
+        <div class="logo-icon">
+            <i class="fas fa-feather-alt"></i>
+        </div>
+        <span class="logo-text">Wool<span>Mill</span></span>
+    </a>
+
+    <!-- Top Right Controls -->
+    <div class="controls-wrapper">
+        <button class="control-btn" id="themeToggle" title="Dark/Light Mode">
+            <i class="fas fa-circle-half-stroke"></i>
+        </button>
+        <button class="control-btn" id="rtlToggle" title="RTL/LTR Mode">
+            <i class="fas fa-language"></i>
+        </button>
+    </div>
+
+    <!-- Login Container - No Scroll -->
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="login-title">
+                <h1>Welcome Back</h1>
+                <p>Sign in to your account</p>
+            </div>
+
+            <form id="loginForm" action="#" method="post" novalidate>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="hello@woolmill.com" autocomplete="email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="password-header">
+                        <label>Password</label>
+                        
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                    </div>
+                </div>
+
+                <!-- Straight line: Remember me on left, Forgot Password on right (neat layout) -->
+                <div class="form-actions">
+                    <div class="remember-wrapper" id="rememberWrapper">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <div class="forgot-action">
+                        <a href="#" class="forgot-link" id="forgotPasswordAction">Forgot password?</a>
+                    </div>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <i class="fas fa-arrow-right-to-bracket"></i> Sign In
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>OR CONTINUE WITH</span>
+            </div>
+
+            <div class="social-login">
+                <button class="social-btn google" id="googleLogin" type="button">
+                    <i class="fab fa-google"></i>
+                    <span>Google</span>
+                </button>
+                <button class="social-btn facebook" id="facebookLogin" type="button">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
+                </button>
+            </div>
+
+            <div class="register-link">
+                Don't have an account? <a href="register.html" id="registerLink">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const htmlEl = document.documentElement;
+            
+            // Theme management
+            function setTheme(theme) {
+                htmlEl.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+            }
+            
+            function toggleTheme() {
+                const currentTheme = htmlEl.getAttribute('data-theme');
+                setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+            }
+            
+            // RTL management
+            function setDir(dir) {
+                htmlEl.setAttribute('dir', dir);
+                localStorage.setItem('dir', dir);
+                // minor fix: re-evaluate layout for any dynamic content
+                document.body.style.display = 'none';
+                setTimeout(() => { document.body.style.display = ''; }, 5);
+            }
+            
+            function toggleRtl() {
+                const currentDir = htmlEl.getAttribute('dir');
+                setDir(currentDir === 'rtl' ? 'ltr' : 'rtl');
+            }
+            
+            // Load saved preferences
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                htmlEl.setAttribute('data-theme', savedTheme);
+            } else {
+                htmlEl.setAttribute('data-theme', 'light');
+            }
+            
+            const savedDir = localStorage.getItem('dir');
+            if (savedDir) {
+                htmlEl.setAttribute('dir', savedDir);
+            } else {
+                htmlEl.setAttribute('dir', 'ltr');
+            }
+            
+            // Attach event listeners to toggle buttons
+            const themeBtn = document.getElementById('themeToggle');
+            const rtlBtn = document.getElementById('rtlToggle');
+            if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+            if (rtlBtn) rtlBtn.addEventListener('click', toggleRtl);
+            
+            // DOM Elements for login
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const rememberCheckbox = document.getElementById('remember');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginForm = document.getElementById('loginForm');
+            
+            // Helper: show alert popup with smooth style
+            function showMessage(message, isError = true) {
+                alert(message); // Simple, consistent with original, but clean
+            }
+            
+            // Handle remember me: save credentials to localStorage if checked
+            function saveRememberMe(email, password, remember) {
+                if (remember) {
+                    localStorage.setItem('remEmail', email);
+                    localStorage.setItem('remPassword', password);
+                    localStorage.setItem('remFlag', 'true');
+                } else {
+                    localStorage.removeItem('remEmail');
+                    localStorage.removeItem('remPassword');
+                    localStorage.setItem('remFlag', 'false');
+                }
+            }
+            
+            // Load saved credentials if "remember me" was active previously
+            function loadSavedCredentials() {
+                const rememberFlag = localStorage.getItem('remFlag');
+                if (rememberFlag === 'true') {
+                    const savedEmail = localStorage.getItem('remEmail');
+                    const savedPwd = localStorage.getItem('remPassword');
+                    if (savedEmail && emailInput) emailInput.value = savedEmail;
+                    if (savedPwd && passwordInput) passwordInput.value = savedPwd;
+                    if (rememberCheckbox) rememberCheckbox.checked = true;
+                } else {
+                    if (rememberCheckbox) rememberCheckbox.checked = false;
+                }
+            }
+            
+            // Login handler - core authentication demo
+            function handleLogin(event) {
+                if (event) event.preventDefault();
+                
+                const email = emailInput ? emailInput.value.trim() : '';
+                const password = passwordInput ? passwordInput.value.trim() : '';
+                const remember = rememberCheckbox ? rememberCheckbox.checked : false;
+                
+                // Basic validation: fields not empty
+                if (!email || !password) {
+                    showMessage('Please enter both email and password.', true);
+                    return;
+                }
+                
+                // Demo authentication logic
+                if (email === 'demo@woolmill.com' && password === 'demo123') {
+                    showMessage('✅ Login successful! Welcome to Wool & Fiber Mill.', false);
+                    
+                    // Save credentials if remember me checked
+                    if (remember) {
+                        saveRememberMe(email, password, true);
+                    } else {
+                        saveRememberMe('', '', false);
+                    }
+                    
+                    // Optional: redirect simulation (or just keep current page)
+                    // For full demo, we can redirect to dashboard or index, but since not specified we just show success.
+                    // In production you'd window.location.href = '/dashboard';
+                } 
+                else {
+                    // Show friendly error with hint to use demo credentials
+                    showMessage('❌ Invalid credentials. Use demo@woolmill.com / demo123 for testing.', true);
+                    // Do not save wrong credentials even if remember is checked.
+                    if (remember) {
+                        // but we might preserve email only? Better not to store wrong pwd. So only store if correct.
+                    }
+                }
+            }
+            
+            // Forgot password handler (both triggers - password-header link + form-actions link)
+            function handleForgotPassword(e) {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                showMessage('📧 Password reset link would be sent to your registered email address.', false);
+                // You could extend with dynamic email detection e.g., if email field has value show that email.
+                const currentEmail = emailInput ? emailInput.value.trim() : '';
+                if (currentEmail && currentEmail.includes('@')) {
+                    // optional: extra hint
+                    console.log(`Reset requested for ${currentEmail}`);
+                }
+            }
+            
+            // Social login handlers (demo)
+            function handleGoogleLogin() {
+                showMessage('🔐 Google OAuth demo. In production environment, this would redirect to Google authentication.', false);
+            }
+            
+            function handleFacebookLogin() {
+                showMessage('🔐 Facebook OAuth demo. In production environment, this would redirect to Facebook authentication.', false);
+            }
+            
+            // Register link handler (just a demo pointer)
+           
+            
+            // Attach login events
+            if (loginBtn) {
+                loginBtn.addEventListener('click', handleLogin);
+            }
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+            
+            // Attach forgot password actions for both locations
+            const forgotLinkHeader = document.getElementById('forgotPasswordTrigger');
+            const forgotLinkAction = document.getElementById('forgotPasswordAction');
+            if (forgotLinkHeader) forgotLinkHeader.addEventListener('click', handleForgotPassword);
+            if (forgotLinkAction) forgotLinkAction.addEventListener('click', handleForgotPassword);
+            
+            // Social login buttons
+            const googleBtn = document.getElementById('googleLogin');
+            const facebookBtn = document.getElementById('facebookLogin');
+            if (googleBtn) googleBtn.addEventListener('click', handleGoogleLogin);
+            if (facebookBtn) facebookBtn.addEventListener('click', handleFacebookLogin);
+            
+            // Register link
+            const registerLink = document.getElementById('registerLink');
+            if (registerLink) registerLink.addEventListener('click', handleRegister);
+            
+            // Load saved credentials on page load
+            loadSavedCredentials();
+            
+            // Additional: Enter keypress already works because form submit triggers handleLogin
+            // To ensure RTL handles dynamic direction properly - no extra issues
+            // Minor check: if we want to sync with "Remember me" changes, it's automatic.
+            
+            // Also for better accessibility: allow focus and keyboard
+            if (rememberCheckbox) {
+                rememberCheckbox.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') rememberCheckbox.checked = !rememberCheckbox.checked;
+                });
+            }
+            
+            // Add subtle demo tooltip or style for forgot links both consistent.
+            console.log('Login page ready — "Remember me" and "Forgot password" aligned perfectly inline.');
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Wool & Fiber Mill - Admin Dashboard for Platform Management">
+    <title>Wool & Fiber Mill | Admin Dashboard</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== GLOBAL VARIABLES - MATCHING CLIENT.HTML ===== */
+        :root {
+            --black: #0F0F0F;
+            --white: #FFFFFF;
+            --accent-solid: #7f0371;
+            --accent-deep: #5a0250;
+            --accent-soft: rgba(127, 3, 113, 0.12);
+            --bg-main: #FEFCF8;
+            --bg-alt: #FCF9F5;
+            --bg-card: #FFFFFF;
+            --text-heading: #1A1A1A;
+            --text-body: #2C2C2C;
+            --text-light: #4A4A4A;
+            --border-light: 1px solid #E8E2DC;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+            --navbar-bg: rgba(255,255,255,0.98);
+            --sidebar-bg: #FDF9F5;
+            --gradient-gold: linear-gradient(135deg, #7f0371 0%, #9b4d8c 100%);
+            --event-bg: #F9F2F9;
+            --card-border: #E6DDE6;
+            --badge-approved-bg: #EADFEA;
+            --badge-approved-text: #4A0040;
+            --badge-pending-bg: #F0EBF0;
+            --badge-pending-text: #5E3A5E;
+            --badge-active-bg: #E0F2EA;
+            --badge-active-text: #0A5C44;
+            --footer-text: #5A5A5A;
+            --stat-card-bg: #FFFFFF;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0F0F0F;
+            --bg-alt: #181818;
+            --bg-card: #1E1E1E;
+            --text-heading: #FFFFFF;
+            --text-body: #E4E4E4;
+            --text-light: #B0B0B0;
+            --border-light: 1px solid #2a2a2a;
+            --navbar-bg: rgba(15,15,15,0.98);
+            --sidebar-bg: #141414;
+            --accent-solid: #d9a3cc;
+            --accent-deep: #c97ab8;
+            --accent-soft: rgba(217, 163, 204, 0.15);
+            --gradient-gold: linear-gradient(135deg, #7f0371 0%, #d9a3cc 100%);
+            --event-bg: #2a1a2a;
+            --card-border: #332033;
+            --badge-approved-bg: #3a2a3a;
+            --badge-approved-text: #e0aaff;
+            --badge-pending-bg: #2a2a2a;
+            --badge-pending-text: #c97ab8;
+            --badge-active-bg: #1a3a2a;
+            --badge-active-text: #34d399;
+            --footer-text: #9E9E9E;
+            --stat-card-bg: #1E1E1E;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-body);
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .font-serif {
+            font-family: 'Merriweather', serif;
+        }
+        
+        .text-accent {
+            color: var(--accent-solid);
+        }
+        
+        .bg-gradient-gold {
+            background: var(--gradient-gold);
+        }
+        
+        .dashboard-card {
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .dashboard-card:hover {
+            border-color: var(--accent-solid);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .badge-approved {
+            background: var(--badge-approved-bg);
+            color: var(--badge-approved-text);
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+            letter-spacing: 0.3px;
+        }
+        
+        .badge-pending {
+            background: var(--badge-pending-bg);
+            color: var(--badge-pending-text);
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+        
+        .badge-active {
+            background: var(--badge-active-bg);
+            color: var(--badge-active-text);
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+        
+        .status-pulse {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1rem;
+            border-radius: 14px;
+            color: var(--text-body);
+            transition: all 0.25s ease;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .sidebar-link i {
+            width: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--accent-solid);
+        }
+        
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: var(--accent-soft);
+            color: var(--accent-solid);
+        }
+        
+        .sidebar-link:hover i,
+        .sidebar-link.active i {
+            color: var(--accent-solid);
+        }
+        
+        .sidebar-link.logout:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        [data-theme="dark"] .sidebar-link.logout:hover {
+            background: #3a1a1a;
+        }
+        
+        .sidebar-link.logout:hover i {
+            color: #dc2626;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 16px;
+            }
+        }
+        
+        .nav-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+            background: var(--accent-solid);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon i { color: white; font-size: 24px; }
+        
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+        
+        @media (max-width: 640px) {
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            .logo-icon {
+                width: 38px;
+                height: 38px;
+            }
+            .logo-icon i {
+                font-size: 18px;
+            }
+        }
+        
+        .logo-text span { color: var(--accent-solid); }
+        
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            background: var(--accent-soft);
+            border: none;
+            border-radius: 40px;
+            color: var(--text-heading);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 640px) {
+            .icon-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+        }
+        
+        .icon-btn:hover {
+            background: var(--accent-solid);
+            color: white;
+        }
+        
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-left: 16px;
+            border-left: 1px solid var(--border-light);
+        }
+        
+        @media (max-width: 640px) {
+            .user-badge {
+                padding-left: 8px;
+            }
+        }
+        
+        .avatar-initials {
+            width: 44px;
+            height: 44px;
+            background: var(--accent-solid);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: white;
+        }
+        
+        @media (max-width: 640px) {
+            .avatar-initials {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .sidebar-desktop {
+            width: 300px;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-sticky {
+            position: sticky;
+            top: 100px;
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 1.5rem;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1040;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .sidebar-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 280px;
+            background: var(--sidebar-bg);
+            z-index: 1050;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 2rem 0 3rem rgba(0,0,0,0.2);
+            overflow-y: auto;
+            padding: 1.5rem;
+            border-right: 1px solid var(--border-light);
+        }
+        
+        .sidebar-drawer.open {
+            transform: translateX(0);
+        }
+        
+        .drawer-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent-soft);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            color: var(--text-heading);
+            cursor: pointer;
+        }
+        
+        .menu-toggle {
+            display: none;
+        }
+        
+        @media (max-width: 1024px) {
+            .menu-toggle { display: flex; }
+            .sidebar-desktop { display: none !important; }
+        }
+        
+        @media (min-width: 1025px) {
+            .menu-toggle { display: none; }
+            .sidebar-desktop { display: block !important; }
+        }
+        
+        /* Main Content Layout - Mobile Fix */
+        main {
+            max-width: 1400px;
+            margin: 100px auto 0;
+            padding: 1.5rem;
+        }
+        
+        @media (max-width: 1024px) {
+            main {
+                padding: 1rem;
+                margin-top: 80px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            main {
+                padding: 0.75rem;
+                margin-top: 70px;
+            }
+        }
+        
+        .main-flex {
+            display: flex;
+            gap: 1.8rem;
+            flex-direction: row;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        
+        .right-content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+        
+        @media (max-width: 640px) {
+            .right-content {
+                gap: 1rem;
+            }
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        }
+        
+        @media (max-width: 640px) {
+            .stats-grid { grid-template-columns: 1fr; gap: 0.75rem; margin-top: 1rem; }
+        }
+        
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        .flex-start {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 640px) {
+            .flex-start {
+                gap: 0.5rem;
+            }
+        }
+        
+        .ml-auto {
+            margin-left: auto;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .btn-apply {
+            background: var(--accent-solid);
+            color: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 640px) {
+            .btn-apply {
+                padding: 0.5rem 1.2rem;
+                font-size: 0.75rem;
+            }
+        }
+        
+        .btn-apply:hover {
+            background: var(--accent-deep);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline-small {
+            background: transparent;
+            border: 1px solid var(--accent-solid);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            color: var(--accent-solid);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.75rem;
+        }
+        
+        .btn-outline-small:hover {
+            background: var(--accent-soft);
+        }
+        
+        .overflow-x-auto {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        table {
+            width: 100%;
+            font-size: 0.85rem;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+        
+        th {
+            padding: 1rem 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 1rem 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-body);
+        }
+        
+        @media (max-width: 640px) {
+            th, td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+        
+        .vendor-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-light);
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        @media (max-width: 640px) {
+            .vendor-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        .vendor-item strong {
+            color: var(--text-heading);
+        }
+        
+        .stat-card {
+            background: var(--stat-card-bg);
+        }
+        
+        .stat-label {
+            color: var(--accent-solid);
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            color: var(--text-heading);
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin: 0.5rem 0 0.25rem;
+        }
+        
+        @media (max-width: 640px) {
+            .stat-value {
+                font-size: 1.8rem;
+            }
+        }
+        
+        .stat-sub {
+            color: var(--text-light);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        /* Welcome Banner - Fixed Contrast */
+        .welcome-banner {
+            background: var(--gradient-gold);
+        }
+        .welcome-banner h1,
+        .welcome-banner p {
+            color: white !important;
+        }
+        
+        .welcome-banner h1 {
+            font-size: 1.8rem;
+        }
+        
+        @media (max-width: 640px) {
+            .welcome-banner h1 {
+                font-size: 1.3rem;
+            }
+            .welcome-banner p {
+                font-size: 0.85rem;
+            }
+        }
+        
+        /* Overview Section Text Visibility Fix */
+        #overview .dashboard-card:not(.bg-gradient-gold) {
+            background: var(--bg-card);
+        }
+        
+        #overview .dashboard-card p,
+        #overview .dashboard-card span:not(.badge-approved):not(.badge-pending):not(.badge-active),
+        #overview .dashboard-card div {
+            color: var(--text-body);
+        }
+        
+        #overview .dashboard-card h2,
+        #overview .dashboard-card h2 span {
+            color: var(--text-heading);
+        }
+        
+        .footer-text {
+            color: var(--footer-text);
+        }
+        
+        .footer-link {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-link:hover {
+            color: var(--accent-solid);
+        }
+        
+        .sidebar-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-solid);
+            font-weight: 700;
+            padding-left: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        [dir="rtl"] .sidebar-link {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="rtl"] .ml-auto {
+            margin-right: auto;
+            margin-left: 0;
+        }
+        
+        [dir="rtl"] .flex-start {
+            flex-direction: row-reverse;
+        }
+        
+        .mt-4 {
+            margin-top: 1rem;
+        }
+        
+        hr {
+            border-color: var(--border-light);
+        }
+        
+        label {
+            color: var(--text-body);
+        }
+        
+        /* Card padding mobile fix */
+        @media (max-width: 640px) {
+            .dashboard-card {
+                border-radius: 20px;
+            }
+            .dashboard-card[style*="padding: 1.8rem"] {
+                padding: 1.2rem !important;
+            }
+            .dashboard-card[style*="padding: 1.5rem"] {
+                padding: 1.2rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-flex">
+            <div class="flex-start">
+                <button id="mobile-menu-toggle-btn" class="icon-btn menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-crown"></i></div>
+                    <span class="logo-text">Wool<span>Mill</span> Admin</span>
+                </a>
+            </div>
+            <div class="flex-start">
+                <button id="rtl-toggle" class="icon-btn" title="RTL">
+                    <i class="fas fa-language"></i>
+                </button>
+                <button id="theme-toggle" class="icon-btn" title="Theme">
+                    <i class="fas fa-circle-half-stroke"></i>
+                </button>
+                <div class="user-badge">
+                    <div class="avatar-initials">AM</div>
+                    <div class="user-info-desk" style="display: none;">
+                        <p style="font-weight: 600; color: var(--text-heading); font-size: 0.85rem;">Admin Miller</p>
+                        <p style="font-size: 0.7rem; color: var(--accent-solid);">Platform Manager</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Sidebar Drawer -->
+    <div id="drawer-overlay" class="drawer-overlay"></div>
+    <aside id="sidebar-drawer" class="sidebar-drawer">
+        <button id="close-drawer" class="drawer-close"><i class="fas fa-times"></i></button>
+        <div class="flex-start" style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); padding-bottom: 1rem;">
+            <div class="avatar-initials" style="width: 48px; height: 48px;">AM</div>
+            <div><p class="font-serif font-bold" style="color: var(--text-heading);">Admin Miller</p><p style="font-size: 0.7rem; color: var(--text-light);">admin@woolmill.com</p></div>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+            <p class="sidebar-section-title">Control Panel</p>
+            <a href="#" data-section="overview" class="sidebar-link active"><i class="fas fa-chart-pie"></i> <span>Overview</span></a>
+            <a href="#" data-section="vendors" class="sidebar-link"><i class="fas fa-users"></i> <span>Vendors</span></a>
+            <a href="#" data-section="markets" class="sidebar-link"><i class="fas fa-calendar-alt"></i> <span>Market Manager</span></a>
+            <a href="#" data-section="applications" class="sidebar-link"><i class="fas fa-clipboard-list"></i> <span>Applications</span></a>
+            <a href="#" data-section="products" class="sidebar-link"><i class="fas fa-ball-yarn"></i> <span>Yarn Listings</span></a>
+            <a href="#" data-section="reports" class="sidebar-link"><i class="fas fa-chart-line"></i> <span>Analytics</span></a>
+            <a href="#" data-section="settings" class="sidebar-link"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+            <a href="#" data-section="logout" class="sidebar-link logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        </nav>
+    </aside>
+
+    <!-- MAIN DASHBOARD LAYOUT -->
+    <main>
+        <div class="main-flex">
+
+            <!-- DESKTOP SIDEBAR -->
+            <aside class="sidebar-desktop">
+                <div class="sidebar-sticky">
+                    <div class="flex-start" style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); padding-bottom: 1rem;">
+                        <div class="avatar-initials" style="width: 52px; height: 52px;">AM</div>
+                        <div><h4 class="font-serif" style="font-size: 1.1rem; color: var(--text-heading);">Admin Miller</h4><p style="font-size: 0.7rem; color: var(--accent-solid);">Platform Manager</p></div>
+                    </div>
+                    <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+                        <p class="sidebar-section-title">Control Panel</p>
+                        <a href="#" data-section="overview" class="sidebar-link active"><i class="fas fa-chart-pie"></i> <span>Overview</span></a>
+                        <a href="#" data-section="vendors" class="sidebar-link"><i class="fas fa-users"></i> <span>Vendors</span></a>
+                        <a href="#" data-section="markets" class="sidebar-link"><i class="fas fa-calendar-alt"></i> <span>Market Manager</span></a>
+                        <a href="#" data-section="applications" class="sidebar-link"><i class="fas fa-clipboard-list"></i> <span>Applications</span></a>
+                        <a href="#" data-section="products" class="sidebar-link"><i class="fas fa-ball-yarn"></i> <span>Yarn Listings</span></a>
+                        <a href="#" data-section="reports" class="sidebar-link"><i class="fas fa-chart-line"></i> <span>Analytics</span></a>
+                        <a href="#" data-section="settings" class="sidebar-link"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+                        <a href="#" data-section="logout" class="sidebar-link logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- RIGHT CONTENT -->
+            <div class="right-content">
+                
+                <!-- OVERVIEW SECTION - FIXED TEXT VISIBILITY -->
+                <div id="overview" class="user-section">
+                    <div class="dashboard-card bg-gradient-gold reveal welcome-banner" style="padding: 1.8rem;">
+                        <h1 class="font-serif" style="font-size: 1.8rem; color: white;">Admin Dashboard 🎯</h1>
+                        <p style="opacity: 0.95; color: rgba(255,255,255,0.95);">Platform overview — manage artisan vendors, fiber markets, and platform analytics.</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="dashboard-card reveal stat-card" style="padding: 1.5rem;">
+                            <p class="stat-label"><i class="fas fa-store"></i> ACTIVE VENDORS</p>
+                            <p class="stat-value">24</p>
+                            <p class="stat-sub">+3 this month</p>
+                        </div>
+                        <div class="dashboard-card reveal stat-card" style="padding: 1.5rem;">
+                            <p class="stat-label"><i class="fas fa-chart-line"></i> TOTAL SALES</p>
+                            <p class="stat-value">$187.4K</p>
+                            <p class="stat-sub">↑ 22% from last quarter</p>
+                        </div>
+                        <div class="dashboard-card reveal stat-card" style="padding: 1.5rem;">
+                            <p class="stat-label"><i class="fas fa-calendar"></i> UPCOMING MARKETS</p>
+                            <p class="stat-value">8</p>
+                            <p class="stat-sub">4 pending curation</p>
+                        </div>
+                        <div class="dashboard-card reveal stat-card" style="padding: 1.5rem;">
+                            <p class="stat-label"><i class="fas fa-ball-yarn"></i> TOTAL LISTINGS</p>
+                            <p class="stat-value">342</p>
+                            <p class="stat-sub">Artisan yarns</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Vendor Applications -->
+                    <div class="dashboard-card reveal" style="padding: 1.5rem;">
+                        <div class="flex-between">
+                            <h2 class="font-serif" style="font-size: 1.3rem; color: var(--text-heading);"><span class="text-accent">Pending</span> Vendor Applications</h2>
+                            <button data-section="applications" class="btn-outline-small" style="cursor: pointer;">View all →</button>
+                        </div>
+                        <div class="overflow-x-auto" style="margin-top: 1rem;">
+                            <table>
+                                <thead>
+                                    <tr><th>Vendor Name</th><th>Studio</th><th>Applied On</th><th>Status</th><th>Action</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Emma Johnson</td><td>Mountain Fiber Arts</td><td>May 5, 2026</td><td><span class="badge-pending">Review</span></td><td><button class="btn-outline-small" style="padding: 0.2rem 0.8rem;">Review</button></td></tr>
+                                    <tr><td>Li Wei</td><td>Silk Road Yarns</td><td>May 3, 2026</td><td><span class="badge-pending">Review</span></td><td><button class="btn-outline-small" style="padding: 0.2rem 0.8rem;">Review</button></td></tr>
+                                    <tr><td>Maria Garcia</td><td>Andean Fibers</td><td>Apr 28, 2026</td><td><span class="badge-pending">Documents</span></td><td><button class="btn-outline-small" style="padding: 0.2rem 0.8rem;">Review</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Top Vendors -->
+                    <div class="dashboard-card reveal" style="padding: 1.5rem;">
+                        <h2 class="font-serif" style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--text-heading);"><span class="text-accent">Top Performing</span> Vendors</h2>
+                        <div class="vendor-item"><div><i class="fas fa-trophy text-accent"></i> <strong>Sarah Weaver</strong><br><span class="stat-sub">Artisan Wool Studio</span></div><div><span class="badge-active">$12.4K sales</span> <span class="badge-approved">⭐ 4.9</span></div></div>
+                        <div class="vendor-item"><div><i class="fas fa-star text-accent"></i> <strong>James Carter</strong><br><span class="stat-sub">Heritage Fibers</span></div><div><span class="badge-active">$8.7K sales</span> <span class="badge-approved">⭐ 4.8</span></div></div>
+                        <div class="vendor-item"><div><i class="fas fa-leaf text-accent"></i> <strong>Willow & Wool</strong><br><span class="stat-sub">Natural Dye Co.</span></div><div><span class="badge-active">$7.2K sales</span> <span class="badge-approved">⭐ 4.9</span></div></div>
+                    </div>
+                </div>
+
+                <!-- VENDORS SECTION -->
+                <div id="vendors" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <div class="flex-between" style="margin-bottom: 1.5rem;">
+                            <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">Artisan</span> Vendors Directory</h2>
+                            <button class="btn-apply"><i class="fas fa-plus"></i> Invite Vendor</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table>
+                                <thead><tr><th>Vendor</th><th>Studio</th><th>Joined</th><th>Listings</th><th>Status</th><th>Sales</th></tr></thead>
+                                <tbody>
+                                    <tr><td><strong>Sarah Weaver</strong></td><td>Vermont Wool Mill</td><td>Jan 2024</td><td>12</td><td><span class="badge-approved">Active</span></td><td>$8,420</td></tr>
+                                    <tr><td><strong>Emma Johnson</strong></td><td>Mountain Fiber</td><td>Feb 2025</td><td>6</td><td><span class="badge-approved">Active</span></td><td>$2,150</td></tr>
+                                    <tr><td><strong>James Carter</strong></td><td>Heritage Fibers</td><td>Nov 2023</td><td>15</td><td><span class="badge-approved">Active</span></td><td>$12,870</td></tr>
+                                    <tr><td><strong>Willow & Wool</strong></td><td>Natural Dye Studio</td><td>Mar 2024</td><td>8</td><td><span class="badge-approved">Active</span></td><td>$5,430</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- MARKETS SECTION -->
+                <div id="markets" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <div class="flex-between" style="margin-bottom: 1.5rem;">
+                            <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">Fiber Market</span> Calendar</h2>
+                            <button class="btn-apply"><i class="fas fa-plus"></i> Create Market</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table>
+                                <thead><tr><th>Market Name</th><th>Date</th><th>Location</th><th>Vendors</th><th>Status</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Artisan Wool Festival</td><td>Jun 10-12, 2026</td><td>Downtown Hall</td><td>24/30</td><td><span class="badge-approved">Published</span></td></tr>
+                                    <tr><td>Natural Fiber Expo</td><td>Jul 22-24, 2026</td><td>Convention Center</td><td>18/25</td><td><span class="badge-pending">Open</span></td></tr>
+                                    <tr><td>Fall Fiber Retreat</td><td>Sep 15-17, 2026</td><td>Mountain Lodge</td><td>12/20</td><td><span class="badge-pending">Draft</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- APPLICATIONS SECTION -->
+                <div id="applications" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <h2 class="font-serif" style="margin-bottom: 1rem; color: var(--text-heading);"><span class="text-accent">Vendor Market</span> Applications</h2>
+                        <div class="flex-between" style="border-bottom: 1px solid var(--border-light); padding: 0.8rem 0;">
+                            <div><i class="fas fa-user text-accent"></i> <strong>Sarah Weaver</strong> → Artisan Wool Festival</div>
+                            <div><span class="badge-approved">Approved</span> <button class="btn-outline-small" style="margin-left: 0.5rem;">Manage</button></div>
+                        </div>
+                        <div class="flex-between" style="border-bottom: 1px solid var(--border-light); padding: 0.8rem 0;">
+                            <div><i class="fas fa-user text-accent"></i> <strong>Emma Johnson</strong> → Natural Fiber Expo</div>
+                            <div><span class="badge-pending">Pending</span> <button class="btn-outline-small" style="margin-left: 0.5rem;">Review</button></div>
+                        </div>
+                        <div class="flex-between" style="padding: 0.8rem 0;">
+                            <div><i class="fas fa-user text-accent"></i> <strong>James Carter</strong> → Fall Fiber Retreat</div>
+                            <div><span class="badge-pending">Under Review</span> <button class="btn-outline-small" style="margin-left: 0.5rem;">Review</button></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PRODUCTS SECTION -->
+                <div id="products" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">All Yarn</span> Listings (Moderation)</h2>
+                        <div class="overflow-x-auto" style="margin-top: 1rem;">
+                            <table>
+                                <thead><tr><th>Product</th><th>Vendor</th><th>Price</th><th>Status</th><th>Action</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Merino DK Undyed</td><td>Sarah Weaver</td><td>$18.50</td><td><span class="badge-approved">Listed</span></td><td><button class="btn-outline-small">Edit</button></td></tr>
+                                    <tr><td>Baby Alpaca Silk</td><td>James Carter</td><td>$26.00</td><td><span class="badge-approved">Listed</span></td><td><button class="btn-outline-small">Edit</button></td></tr>
+                                    <tr><td>Hand-Dyed Sock</td><td>Willow & Wool</td><td>$31.00</td><td><span class="badge-pending">Flagged</span></td><td><button class="btn-outline-small">Review</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- REPORTS SECTION -->
+                <div id="reports" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">Platform</span> Analytics</h2>
+                        <div class="stats-grid" style="margin-top: 1rem;">
+                            <div class="stat-card" style="padding: 1rem;"><p class="stat-label">Monthly Revenue</p><p class="stat-value">$28.4K</p></div>
+                            <div class="stat-card" style="padding: 1rem;"><p class="stat-label">Avg Order Value</p><p class="stat-value">$74</p></div>
+                            <div class="stat-card" style="padding: 1rem;"><p class="stat-label">Conversion Rate</p><p class="stat-value">3.8%</p></div>
+                            <div class="stat-card" style="padding: 1rem;"><p class="stat-label">New Users</p><p class="stat-value">142</p></div>
+                        </div>
+                        <hr style="margin: 1.5rem 0;">
+                        <p style="color: var(--text-body);"><strong style="color: var(--text-heading);">Top Categories:</strong> Merino (34%), Alpaca (28%), Blends (22%), Dyed (16%)</p>
+                    </div>
+                </div>
+                
+                <!-- SETTINGS SECTION -->
+                <div id="settings" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">Platform</span> Settings</h2>
+                        <div style="margin-top: 1rem;">
+                            <label style="display: block; margin-bottom: 0.75rem; cursor: pointer;"><input type="checkbox" style="margin-right: 0.75rem;"> Auto-approve verified vendors</label>
+                            <label style="display: block; margin-bottom: 0.75rem; cursor: pointer;"><input type="checkbox" style="margin-right: 0.75rem;"> Require market application fees</label>
+                            <label style="display: block; margin-bottom: 0.75rem; cursor: pointer;"><input type="checkbox" style="margin-right: 0.75rem;"> Enable waitlist for markets</label>
+                        </div>
+                        <button class="btn-apply mt-4" style="margin-top: 1.5rem;">Save Platform Settings</button>
+                    </div>
+                </div>
+                
+                <!-- LOGOUT SECTION -->
+                <div id="logout" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 2.5rem; max-width: 500px; margin: 0 auto; text-align: center;">
+                        <div style="background: var(--accent-soft); width: 70px; height: 70px; border-radius: 50%; display: flex; margin: 0 auto 1rem; align-items: center; justify-content: center;"><i class="fas fa-sign-out-alt" style="font-size: 2rem; color: var(--accent-solid);"></i></div>
+                        <h3 class="font-serif" style="color: var(--text-heading);">Admin Sign Out</h3>
+                        <p style="color: var(--text-body); margin-top: 0.5rem;">End your admin session securely.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                            <button id="confirmLogoutBtn" style="background: #dc2626; color: white; padding: 0.6rem 1.8rem; border-radius: 40px; border: none; cursor: pointer; font-weight: 600;">Sign Out</button>
+                            <button id="cancelLogoutBtn" style="background: transparent; border: 1px solid var(--accent-solid); padding: 0.6rem 1.8rem; border-radius: 40px; cursor: pointer; color: var(--accent-solid); font-weight: 600;">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Status Banner -->
+                <div class="dashboard-card bg-gradient-gold" style="padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div class="flex-start">
+                        <span class="status-pulse"></span>
+                        <div>
+                            <p class="font-bold" style="color: white;">Platform Live</p>
+                            <p style="font-size: 0.7rem; opacity: 0.9; color: rgba(255,255,255,0.9);">24 active vendors · 342 total listings</p>
+                        </div>
+                    </div>
+                    <div><span class="badge-approved" style="background: rgba(255,255,255,0.2); color: white;">v2.0 Admin Portal</span></div>
+                </div>
+                
+                <footer style="text-align: center; font-size: 0.7rem; border-top: 1px solid var(--border-light); padding: 2rem 0 1rem;">
+                    <p class="footer-text">© 2026 Wool & Fiber Mill — Admin Management Dashboard</p>
+                    <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                        <a href="#" class="footer-link">Platform Terms</a>
+                        <a href="#" class="footer-link">Vendor Policies</a>
+                        <a href="#" class="footer-link">Support</a>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        (function() {
+            const htmlEl = document.documentElement;
+            const themeToggle = document.getElementById('theme-toggle');
+            function setTheme(theme) { 
+                htmlEl.setAttribute('data-theme', theme); 
+                localStorage.setItem('theme', theme);
+            }
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+            if(themeToggle) themeToggle.addEventListener('click', () => setTheme(htmlEl.getAttribute('data-theme') === 'light' ? 'dark' : 'light'));
+            
+            const rtlToggle = document.getElementById('rtl-toggle');
+            function setDir(dir) { htmlEl.setAttribute('dir', dir); localStorage.setItem('dir', dir); }
+            const savedDir = localStorage.getItem('dir') || 'ltr';
+            setDir(savedDir);
+            if(rtlToggle) rtlToggle.addEventListener('click', () => setDir(htmlEl.getAttribute('dir') === 'ltr' ? 'rtl' : 'ltr'));
+            
+            const drawer = document.getElementById('sidebar-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            const openBtn = document.getElementById('mobile-menu-toggle-btn');
+            const closeDrawerBtn = document.getElementById('close-drawer');
+            function openDrawer() { drawer.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+            function closeDrawer() { drawer.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
+            if(openBtn) openBtn.addEventListener('click', openDrawer);
+            if(closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeDrawer);
+            overlay.addEventListener('click', closeDrawer);
+            
+            const sections = ['overview', 'vendors', 'markets', 'applications', 'products', 'reports', 'settings', 'logout'];
+            function activateSection(sectionId) {
+                sections.forEach(id => { const el = document.getElementById(id); if(el) el.classList.add('hidden'); });
+                const activeSection = document.getElementById(sectionId);
+                if(activeSection) activeSection.classList.remove('hidden');
+                document.querySelectorAll('.sidebar-link').forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('data-section') === sectionId) link.classList.add('active');
+                });
+                closeDrawer();
+            }
+            window.activateSection = activateSection;
+            
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const section = link.getAttribute('data-section');
+                    if(section) activateSection(section);
+                });
+            });
+            
+            const confirmBtn = document.getElementById('confirmLogoutBtn');
+            const cancelBtn = document.getElementById('cancelLogoutBtn');
+            if(confirmBtn) confirmBtn.addEventListener('click', () => { alert('Signed out successfully!'); activateSection('overview'); });
+            if(cancelBtn) cancelBtn.addEventListener('click', () => activateSection('overview'));
+            
+            const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            
+            const updateUserDisplay = () => { if(window.innerWidth >= 768) { const info = document.querySelector('.user-info-desk'); if(info) info.style.display = 'block'; } };
+            updateUserDisplay();
+            window.addEventListener('resize', updateUserDisplay);
+        })();
+    </script>
+</body>
+</html>

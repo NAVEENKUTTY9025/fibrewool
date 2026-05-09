@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, viewport-fit=cover">
+    <meta name="description" content="Create an account at Wool & Fiber Mill - Join our community of fiber artists, access workshops, and manage your yarn projects.">
+    <title>Register | Wool & Fiber Mill - Create Account</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0F0F0F;
+            --white: #FFFFFF;
+            --accent: #7f0371bb;
+            --accent-solid: #7f0371;
+            --accent-deep: #5a0250;
+            --accent-soft: rgba(127, 3, 113, 0.12);
+            --bg-main: #FFFFFF;
+            --bg-alt: #FCF9F5;
+            --text-heading: #0F0F0F;
+            --text-body: #2C2C2C;
+            --text-light: #6B6B6B;
+            --border-light: 1px solid rgba(127, 3, 113, 0.2);
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+            --input-bg: #FFFFFF;
+            --input-border: #E0E0E0;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0F0F0F;
+            --bg-alt: #181818;
+            --text-heading: #FFFFFF;
+            --text-body: #E4E4E4;
+            --text-light: #AEAEAE;
+            --border-light: 1px solid rgba(127, 3, 113, 0.35);
+            --input-bg: #1E1E1E;
+            --input-border: #333333;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-alt) 0%, var(--bg-main) 100%);
+            color: var(--text-body);
+            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Main Container - Fixed, No Scroll */
+        .register-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Logo - Top Left Corner (same as service.html) */
+        .logo-top {
+            position: fixed;
+            top: 28px;
+            left: 28px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        [dir="rtl"] .logo-top {
+            left: auto;
+            right: 28px;
+        }
+
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+            background: var(--accent);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.25s;
+        }
+        .logo-icon i {
+            color: white;
+            font-size: 24px;
+        }
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+        .logo-text span {
+            color: var(--accent-solid);
+        }
+
+        /* Theme & RTL Buttons - Top Right Corner */
+        .controls-wrapper {
+            position: fixed;
+            top: 28px;
+            right: 28px;
+            z-index: 100;
+            display: flex;
+            gap: 12px;
+        }
+
+        [dir="rtl"] .controls-wrapper {
+            right: auto;
+            left: 28px;
+        }
+
+        .control-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--accent-soft);
+            border: 1px solid rgba(127, 3, 113, 0.2);
+            border-radius: 40px;
+            color: var(--text-heading);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .control-btn:hover {
+            background: var(--accent-solid);
+            color: white;
+            transform: scale(1.05);
+            border-color: var(--accent-solid);
+        }
+
+        /* Register Card - Tight Content, No Internal Scroll */
+        .register-card {
+            background: var(--bg-main);
+            border-radius: 48px;
+            width: 100%;
+            max-width: 460px;
+            padding: 32px 36px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(127, 3, 113, 0.15);
+            transition: all 0.3s ease;
+            margin: 20px;
+        }
+
+        /* Center Logo inside Card */
+        .logo-center {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo-center-icon {
+            width: 55px;
+            height: 55px;
+            background: var(--accent);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .logo-center-icon i {
+            color: white;
+            font-size: 26px;
+        }
+        .logo-center-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+        .logo-center-text span {
+            color: var(--accent-solid);
+        }
+
+        /* Title */
+        .register-title {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+        .register-title h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 5px;
+        }
+        .register-title p {
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        /* Form - Tight Spacing */
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-heading);
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        [dir="rtl"] .input-wrapper i {
+            left: auto;
+            right: 14px;
+        }
+        .input-wrapper input,
+        .input-wrapper select {
+            width: 100%;
+            padding: 10px 14px 10px 42px;
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: 28px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-body);
+            transition: all 0.2s ease;
+        }
+        [dir="rtl"] .input-wrapper input,
+        [dir="rtl"] .input-wrapper select {
+            padding: 10px 42px 10px 14px;
+        }
+        .input-wrapper input:focus,
+        .input-wrapper select:focus {
+            outline: none;
+            border-color: var(--accent-solid);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        /* Password Strength Indicator - Compact */
+        .password-strength {
+            margin-top: 5px;
+            font-size: 0.65rem;
+        }
+        .strength-bar {
+            height: 3px;
+            background: var(--input-border);
+            border-radius: 3px;
+            margin-top: 5px;
+            width: 100%;
+        }
+        .strength-fill {
+            height: 100%;
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.3s, background 0.3s;
+        }
+        .strength-text {
+            margin-top: 3px;
+            color: var(--text-light);
+        }
+
+        /* Terms Checkbox - Compact */
+        .terms-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        .terms-row input {
+            width: 15px;
+            height: 15px;
+            accent-color: var(--accent-solid);
+            cursor: pointer;
+        }
+        .terms-row label {
+            font-size: 0.75rem;
+            color: var(--text-body);
+            cursor: pointer;
+        }
+        .terms-row a {
+            color: var(--accent-solid);
+            text-decoration: none;
+        }
+        .terms-row a:hover {
+            text-decoration: underline;
+        }
+
+        /* Register Button - Compact */
+        .register-btn {
+            width: 100%;
+            padding: 11px;
+            background: var(--accent);
+            border: none;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .register-btn:hover {
+            background: var(--accent-deep);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(127, 3, 113, 0.3);
+        }
+
+        /* Divider - Compact */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 18px 0;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(127, 3, 113, 0.2);
+        }
+        .divider span {
+            padding: 0 10px;
+            color: var(--text-light);
+            font-size: 0.7rem;
+        }
+
+        /* Social Register - Compact */
+        .social-register {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .social-btn {
+            flex: 1;
+            padding: 9px;
+            background: transparent;
+            border: 1.5px solid rgba(127, 3, 113, 0.2);
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-body);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .social-btn:hover {
+            border-color: var(--accent-solid);
+            background: var(--accent-soft);
+            transform: translateY(-2px);
+        }
+        .social-btn i {
+            font-size: 0.95rem;
+        }
+        .social-btn.google i { color: #DB4437; }
+        .social-btn.facebook i { color: #4267B2; }
+
+        /* Login Link - Compact */
+        .login-link {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        .login-link a {
+            color: var(--accent-solid);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* RTL Specific Adjustments */
+        [dir="rtl"] .input-wrapper i {
+            left: auto;
+            right: 14px;
+        }
+        [dir="rtl"] .terms-row {
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+        /* Responsive - Tablet & Mobile */
+        @media (max-width: 560px) {
+            .logo-top {
+                top: 16px;
+                left: 16px;
+            }
+            [dir="rtl"] .logo-top {
+                left: auto;
+                right: 16px;
+            }
+            .logo-icon {
+                width: 38px;
+                height: 38px;
+            }
+            .logo-icon i {
+                font-size: 18px;
+            }
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            .controls-wrapper {
+                top: 16px;
+                right: 16px;
+            }
+            [dir="rtl"] .controls-wrapper {
+                right: auto;
+                left: 16px;
+            }
+            .control-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+            .register-card {
+                padding: 24px 20px;
+                margin: 16px;
+                max-width: 94%;
+            }
+            .logo-center-icon {
+                width: 48px;
+                height: 48px;
+            }
+            .logo-center-icon i {
+                font-size: 22px;
+            }
+            .logo-center-text {
+                font-size: 1.3rem;
+            }
+            .register-title h1 {
+                font-size: 1.4rem;
+            }
+            .social-btn span {
+                display: none;
+            }
+            .social-btn {
+                padding: 9px;
+            }
+            .social-btn i {
+                margin: 0;
+            }
+        }
+
+        /* Extra Small Devices */
+        @media (max-width: 450px) {
+            .register-card {
+                padding: 20px 18px;
+            }
+            .form-group {
+                margin-bottom: 12px;
+            }
+            .input-wrapper input,
+            .input-wrapper select {
+                padding: 9px 12px 9px 38px;
+                font-size: 0.8rem;
+            }
+            [dir="rtl"] .input-wrapper input {
+                padding: 9px 38px 9px 12px;
+            }
+            .register-btn {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Left Logo - Same as service.html -->
+    <a href="index.html" class="logo-top">
+        <div class="logo-icon">
+            <i class="fas fa-feather-alt"></i>
+        </div>
+        <span class="logo-text">Wool<span>Mill</span></span>
+    </a>
+
+    <!-- Top Right Controls -->
+    <div class="controls-wrapper">
+        <button class="control-btn" id="themeToggle" title="Dark/Light Mode">
+            <i class="fas fa-circle-half-stroke"></i>
+        </button>
+        <button class="control-btn" id="rtlToggle" title="RTL/LTR Mode">
+            <i class="fas fa-language"></i>
+        </button>
+    </div>
+
+    <!-- Register Container - No Scroll -->
+    <div class="register-wrapper">
+        <div class="register-card">
+            <!-- Center Logo inside card -->
+           
+
+            <div class="register-title">
+                <h1>Create Account</h1>
+                <p>Join our fiber community</p>
+            </div>
+
+            <form id="registerForm" onsubmit="return false;">
+                <!-- First Name - Full Width (Stacked One by One) -->
+                <div class="form-group">
+                    <label>First Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="firstName" placeholder="John" required>
+                    </div>
+                </div>
+
+                <!-- Last Name - Full Width (Stacked One by One) -->
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="lastName" placeholder="Doe" required>
+                    </div>
+                </div>
+
+                <!-- Email -->
+               
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Create a strong password" required>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <div class="strength-text" id="strengthText"></div>
+                    </div>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-check-circle"></i>
+                        <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+
+                <!-- Interest Dropdown -->
+               
+
+                <!-- Terms Checkbox -->
+                <div class="terms-row">
+                    <input type="checkbox" id="terms">
+                    <label for="terms">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <!-- Register Button -->
+                <button type="submit" class="register-btn" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span>OR SIGN UP WITH</span>
+            </div>
+
+            <!-- Social Register -->
+            <div class="social-register">
+                <button class="social-btn google" id="googleRegister">
+                    <i class="fab fa-google"></i>
+                    <span>Google</span>
+                </button>
+                <button class="social-btn facebook" id="facebookRegister">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
+                </button>
+            </div>
+
+            <!-- Login Link -->
+            <div class="login-link">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const htmlEl = document.documentElement;
+            
+            // Theme Functions
+            function setTheme(theme) {
+                htmlEl.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+            }
+            
+            function toggleTheme() {
+                const currentTheme = htmlEl.getAttribute('data-theme');
+                setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+            }
+            
+            // RTL Functions
+            function setDir(dir) {
+                htmlEl.setAttribute('dir', dir);
+                localStorage.setItem('dir', dir);
+            }
+            
+            function toggleRtl() {
+                const currentDir = htmlEl.getAttribute('dir');
+                setDir(currentDir === 'rtl' ? 'ltr' : 'rtl');
+            }
+            
+            // Load saved preferences
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                htmlEl.setAttribute('data-theme', savedTheme);
+            } else {
+                htmlEl.setAttribute('data-theme', 'light');
+            }
+            
+            const savedDir = localStorage.getItem('dir');
+            if (savedDir) {
+                htmlEl.setAttribute('dir', savedDir);
+            } else {
+                htmlEl.setAttribute('dir', 'ltr');
+            }
+            
+            // Attach event listeners to buttons
+            const themeBtn = document.getElementById('themeToggle');
+            const rtlBtn = document.getElementById('rtlToggle');
+            
+            if (themeBtn) {
+                themeBtn.addEventListener('click', toggleTheme);
+            }
+            
+            if (rtlBtn) {
+                rtlBtn.addEventListener('click', toggleRtl);
+            }
+            
+            // Password Strength Checker
+            const passwordInput = document.getElementById('password');
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            
+            function checkPasswordStrength(password) {
+                let strength = 0;
+                if (password.length >= 6) strength++;
+                if (password.length >= 10) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^A-Za-z0-9]/.test(password)) strength++;
+                
+                const strengthMap = {
+                    0: { width: '0%', text: '', color: '#c62828' },
+                    1: { width: '20%', text: 'Weak', color: '#ef6c00' },
+                    2: { width: '40%', text: 'Fair', color: '#f9a825' },
+                    3: { width: '60%', text: 'Good', color: '#7cb342' },
+                    4: { width: '80%', text: 'Strong', color: '#43a047' },
+                    5: { width: '100%', text: 'Very Strong', color: '#2e7d32' }
+                };
+                
+                const result = strengthMap[strength] || strengthMap[0];
+                strengthFill.style.width = result.width;
+                strengthFill.style.background = result.color;
+                strengthText.textContent = result.text;
+                strengthText.style.color = result.color;
+                
+                return strength >= 3;
+            }
+            
+            if (passwordInput) {
+                passwordInput.addEventListener('input', (e) => {
+                    checkPasswordStrength(e.target.value);
+                });
+            }
+            
+            // Register Form Handler
+            const registerForm = document.getElementById('registerForm');
+            const registerBtn = document.getElementById('registerBtn');
+            
+            function handleRegister(e) {
+                if (e) e.preventDefault();
+                
+                const firstName = document.getElementById('firstName').value.trim();
+                const lastName = document.getElementById('lastName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const terms = document.getElementById('terms').checked;
+                const interest = document.getElementById('interest').value;
+                
+                // Validation
+                if (!firstName || !lastName || !email || !password) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match. Please try again.');
+                    return;
+                }
+                
+                if (!checkPasswordStrength(password)) {
+                    alert('Please use a stronger password (at least 6 characters with letters and numbers).');
+                    return;
+                }
+                
+                if (!terms) {
+                    alert('Please agree to the Terms of Service and Privacy Policy.');
+                    return;
+                }
+                
+                // Success message
+              window.location.href = "register.html";
+                
+                // Reset form
+                registerForm.reset();
+                strengthFill.style.width = '0%';
+                strengthText.textContent = '';
+            }
+            
+            if (registerBtn) {
+                registerBtn.addEventListener('click', handleRegister);
+            }
+            
+            if (registerForm) {
+                registerForm.addEventListener('submit', handleRegister);
+            }
+            
+            // Social registration handlers
+            const googleBtn = document.getElementById('googleRegister');
+            const facebookBtn = document.getElementById('facebookRegister');
+            
+           
+            
+            // Enter key support
+            const inputs = ['firstName', 'lastName', 'email', 'password', 'confirmPassword'];
+            inputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            handleRegister(e);
+                        }
+                    });
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

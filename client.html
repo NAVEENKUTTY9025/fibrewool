@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Wool & Fiber Mill - Vendor Dashboard for Artisan Yarn Producers">
+    <title>Wool & Fiber Mill | Vendor Dashboard</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== GLOBAL VARIABLES - ENHANCED LIGHT MODE CONTRAST ===== */
+        :root {
+            --black: #0F0F0F;
+            --white: #FFFFFF;
+            --accent-solid: #7f0371;
+            --accent-deep: #5a0250;
+            --accent-soft: rgba(127, 3, 113, 0.12);
+            --bg-main: #FEFCF8;
+            --bg-alt: #FCF9F5;
+            --bg-card: #FFFFFF;
+            --text-heading: #1A1A1A;
+            --text-body: #2C2C2C;
+            --text-light: #4A4A4A;
+            --border-light: 1px solid #E8E2DC;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+            --navbar-bg: rgba(255,255,255,0.98);
+            --sidebar-bg: #FDF9F5;
+            --gradient-gold: linear-gradient(135deg, #7f0371 0%, #9b4d8c 100%);
+            --event-bg: #F9F2F9;
+            --card-border: #E6DDE6;
+            --badge-approved-bg: #EADFEA;
+            --badge-approved-text: #4A0040;
+            --badge-pending-bg: #F0EBF0;
+            --badge-pending-text: #5E3A5E;
+            --badge-active-bg: #E0F2EA;
+            --badge-active-text: #0A5C44;
+            --message-bg: #F9F2F9;
+            --footer-text: #5A5A5A;
+            --stat-card-bg: #FFFFFF;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0F0F0F;
+            --bg-alt: #181818;
+            --bg-card: #1E1E1E;
+            --text-heading: #FFFFFF;
+            --text-body: #E4E4E4;
+            --text-light: #B0B0B0;
+            --border-light: 1px solid #2a2a2a;
+            --navbar-bg: rgba(15,15,15,0.98);
+            --sidebar-bg: #141414;
+            --accent-solid: #d9a3cc;
+            --accent-deep: #c97ab8;
+            --accent-soft: rgba(217, 163, 204, 0.15);
+            --gradient-gold: linear-gradient(135deg, #7f0371 0%, #d9a3cc 100%);
+            --event-bg: #2a1a2a;
+            --card-border: #332033;
+            --badge-approved-bg: #3a2a3a;
+            --badge-approved-text: #e0aaff;
+            --badge-pending-bg: #2a2a2a;
+            --badge-pending-text: #c97ab8;
+            --badge-active-bg: #1a3a2a;
+            --badge-active-text: #34d399;
+            --message-bg: #2a1a2a;
+            --footer-text: #9E9E9E;
+            --stat-card-bg: #1E1E1E;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-body);
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .font-serif {
+            font-family: 'Merriweather', serif;
+        }
+        
+        .text-accent {
+            color: var(--accent-solid);
+        }
+        
+        .bg-gradient-gold {
+            background: var(--gradient-gold);
+        }
+        
+        /* Cards */
+        .dashboard-card {
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .dashboard-card:hover {
+            border-color: var(--accent-solid);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        /* Badges - HIGH CONTRAST FIXED */
+        .badge-approved {
+            background: var(--badge-approved-bg);
+            color: var(--badge-approved-text);
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+            letter-spacing: 0.3px;
+        }
+        
+        .badge-pending {
+            background: var(--badge-pending-bg);
+            color: var(--badge-pending-text);
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+        
+        .badge-active {
+            background: var(--badge-active-bg);
+            color: var(--badge-active-text);
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+        
+        /* Status Pulse */
+        .status-pulse {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        
+        /* Sidebar Links */
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1rem;
+            border-radius: 14px;
+            color: var(--text-body);
+            transition: all 0.25s ease;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .sidebar-link i {
+            width: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--accent-solid);
+        }
+        
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: var(--accent-soft);
+            color: var(--accent-solid);
+        }
+        
+        .sidebar-link:hover i,
+        .sidebar-link.active i {
+            color: var(--accent-solid);
+        }
+        
+        .sidebar-link.logout:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        [data-theme="dark"] .sidebar-link.logout:hover {
+            background: #3a1a1a;
+        }
+        
+        .sidebar-link.logout:hover i {
+            color: #dc2626;
+        }
+        
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 28px;
+        }
+        
+        .nav-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+            background: var(--accent-solid);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon i { color: white; font-size: 24px; }
+        
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+        
+        .logo-text span { color: var(--accent-solid); }
+        
+        /* Icon Buttons */
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            background: var(--accent-soft);
+            border: none;
+            border-radius: 40px;
+            color: var(--text-heading);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .icon-btn:hover {
+            background: var(--accent-solid);
+            color: white;
+        }
+        
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-left: 16px;
+            border-left: 1px solid var(--border-light);
+        }
+        
+        .avatar-initials {
+            width: 44px;
+            height: 44px;
+            background: var(--accent-solid);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: white;
+        }
+        
+        /* Sidebar Layout */
+        .sidebar-desktop {
+            width: 300px;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-sticky {
+            position: sticky;
+            top: 100px;
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 1.5rem;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Mobile Drawer */
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1040;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .sidebar-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 300px;
+            background: var(--sidebar-bg);
+            z-index: 1050;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 2rem 0 3rem rgba(0,0,0,0.2);
+            overflow-y: auto;
+            padding: 1.5rem;
+            border-right: 1px solid var(--border-light);
+        }
+        
+        .sidebar-drawer.open {
+            transform: translateX(0);
+        }
+        
+        .drawer-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent-soft);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            color: var(--text-heading);
+            cursor: pointer;
+        }
+        
+        .menu-toggle {
+            display: none;
+        }
+        
+        @media (max-width: 1024px) {
+            .menu-toggle { display: flex; }
+            .sidebar-desktop { display: none !important; }
+        }
+        
+        @media (min-width: 1025px) {
+            .menu-toggle { display: none; }
+            .sidebar-desktop { display: block !important; }
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 640px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+        
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .flex-start {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .ml-auto {
+            margin-left: auto;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .btn-apply {
+            background: var(--accent-solid);
+            color: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+        }
+        
+        .btn-apply:hover {
+            background: var(--accent-deep);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline-small {
+            background: transparent;
+            border: 1px solid var(--accent-solid);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            color: var(--accent-solid);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .btn-outline-small:hover {
+            background: var(--accent-soft);
+        }
+        
+        .overflow-x-auto {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            font-size: 0.85rem;
+            border-collapse: collapse;
+        }
+        
+        th {
+            padding: 1rem 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 1rem 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-body);
+        }
+        
+        .message-item {
+            padding: 1rem;
+            background: var(--message-bg);
+            border-radius: 20px;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid var(--accent-solid);
+        }
+        
+        .message-item .font-bold {
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+        
+        .product-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-light);
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        .product-item strong {
+            color: var(--text-heading);
+        }
+        
+        /* STAT CARD STYLES - ENHANCED VISIBILITY */
+        .stat-card {
+            background: var(--stat-card-bg);
+        }
+        
+        .stat-label {
+            color: var(--accent-solid);
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            color: var(--text-heading);
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin: 0.5rem 0 0.25rem;
+        }
+        
+        .stat-sub {
+            color: var(--text-light);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        /* EVENT CARD - FIXED CONTRAST */
+        .event-card {
+            padding: 1.25rem;
+            background: var(--event-bg);
+            border-left: 4px solid var(--accent-solid);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+        }
+        
+        .event-title {
+            color: var(--text-heading);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        .event-date {
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .event-location {
+            color: var(--text-body);
+            font-size: 0.75rem;
+            margin-top: 4px;
+            opacity: 0.85;
+        }
+        
+        .featured-badge {
+            background: rgba(127, 3, 113, 0.15);
+            color: var(--accent-deep);
+            padding: 0.25rem 0.75rem;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+        
+        [data-theme="dark"] .featured-badge {
+            background: rgba(201, 122, 184, 0.25);
+            color: #e0aaff;
+        }
+        
+        /* Welcome Banner - White text guaranteed */
+        .welcome-banner {
+            background: linear-gradient(135deg, #7f0371 0%, #9b4d8c 100%);
+        }
+        .welcome-banner h1,
+        .welcome-banner p {
+            color: white !important;
+        }
+        
+        /* Overview section specific text fixes */
+        #overview .dashboard-card:not(.bg-gradient-gold) p,
+        #overview .dashboard-card:not(.bg-gradient-gold) span,
+        #overview .dashboard-card:not(.bg-gradient-gold) div:not(.stat-card) {
+            color: var(--text-body);
+        }
+        
+        #overview .dashboard-card h2,
+        #overview .dashboard-card h2 span {
+            color: var(--text-heading);
+        }
+        
+        .footer-text {
+            color: var(--footer-text);
+        }
+        
+        .footer-link {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-link:hover {
+            color: var(--accent-solid);
+        }
+        
+        .sidebar-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-solid);
+            font-weight: 700;
+            padding-left: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        /* RTL Support */
+        [dir="rtl"] .sidebar-link {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="rtl"] .ml-auto {
+            margin-right: auto;
+            margin-left: 0;
+        }
+        
+        [dir="rtl"] .flex-start {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="rtl"] .event-card {
+            border-left: none;
+            border-right: 4px solid var(--accent-solid);
+        }
+        
+        /* Additional contrast fix for light mode text on cards */
+        .product-item .stat-sub {
+            color: var(--text-light);
+        }
+        
+        .mt-4 {
+            margin-top: 1rem;
+        }
+        
+        .mt-3 {
+            margin-top: 0.75rem;
+        }
+        
+        hr {
+            border-color: var(--border-light);
+        }
+        
+        label {
+            color: var(--text-body);
+        }
+        
+        .dashboard-card p, 
+        .dashboard-card li {
+            color: var(--text-body);
+        }
+        
+        .dashboard-card strong {
+            color: var(--text-heading);
+        }
+        
+        /* Table text visibility */
+        table td, table th {
+            color: var(--text-body);
+        }
+        table th {
+            color: var(--text-heading);
+        }
+        
+        /* Status banner text */
+        .status-banner-text {
+            color: white;
+        }
+        
+        /* Fix market status text */
+        .flex-between span, .flex-between strong {
+            color: var(--text-body);
+        }
+        .flex-between .badge-approved, .flex-between .badge-pending {
+            color: var(--badge-approved-text);
+        }
+        [data-theme="dark"] .flex-between .badge-approved {
+            color: var(--badge-approved-text);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-flex">
+            <div class="flex-start">
+                <button id="mobile-menu-toggle-btn" class="icon-btn menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="index.html"class="logo">
+                    <div class="logo-icon"><i class="fas fa-feather-alt"></i></div>
+                    <span class="logo-text">Wool<span>Mill</span></span>
+                </a>
+            </div>
+            <div class="flex-start">
+                <button id="rtl-toggle" class="icon-btn" title="RTL">
+                    <i class="fas fa-language"></i>
+                </button>
+                <button id="theme-toggle" class="icon-btn" title="Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="user-badge">
+                    <div class="avatar-initials">SW</div>
+                    <div class="user-info-desk" style="display: none;">
+                        <p style="font-weight: 600; color: var(--text-heading); font-size: 0.85rem;">Sarah Weaver</p>
+                        <p style="font-size: 0.7rem; color: var(--accent-solid);">Artisan Vendor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Sidebar Drawer -->
+    <div id="drawer-overlay" class="drawer-overlay"></div>
+    <aside id="sidebar-drawer" class="sidebar-drawer">
+        <button id="close-drawer" class="drawer-close"><i class="fas fa-times"></i></button>
+        <div class="flex-start" style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); padding-bottom: 1rem;">
+            <div class="avatar-initials" style="width: 48px; height: 48px;">SW</div>
+            <div><p class="font-serif font-bold" style="color: var(--text-heading);">Sarah Weaver</p><p style="font-size: 0.7rem; color: var(--text-light);">sarah@woolmill.com</p></div>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+            <p class="sidebar-section-title">Dashboard</p>
+            <a href="#" data-section="overview" class="sidebar-link active"><i class="fas fa-chart-line"></i> <span>Overview</span></a>
+            <a href="#" data-section="products" class="sidebar-link"><i class="fas fa-ball-yarn"></i> <span>My Yarn Listings</span></a>
+            <a href="#" data-section="applications" class="sidebar-link"><i class="fas fa-clipboard-list"></i> <span>Market Applications</span></a>
+            <a href="#" data-section="markets" class="sidebar-link"><i class="fas fa-store"></i> <span>Upcoming Fiber Markets</span></a>
+            <a href="#" data-section="earnings" class="sidebar-link"><i class="fas fa-coins"></i> <span>Earnings & Sales</span></a>
+            <a href="#" data-section="profile" class="sidebar-link"><i class="fas fa-user-circle"></i> <span>Studio Profile</span></a>
+            <a href="#" data-section="messages" class="sidebar-link"><i class="fas fa-envelope"></i> <span>Messages</span><span class="ml-auto" style="background: var(--accent-solid); color: white; font-size: 0.7rem; padding: 0.125rem 0.5rem; border-radius: 40px;">3</span></a>
+            <a href="#" data-section="settings" class="sidebar-link"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+            <a href="#" data-section="logout" class="sidebar-link logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        </nav>
+    </aside>
+
+    <!-- MAIN DASHBOARD LAYOUT -->
+    <main style="max-width: 1400px; margin: 100px auto 0; padding: 1.5rem;">
+        <div style="display: flex; gap: 1.8rem; flex-direction: row;">
+
+            <!-- DESKTOP SIDEBAR -->
+            <aside class="sidebar-desktop">
+                <div class="sidebar-sticky">
+                    <div class="flex-start" style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); padding-bottom: 1rem;">
+                        <div class="avatar-initials" style="width: 52px; height: 52px;">SW</div>
+                        <div><h4 class="font-serif" style="font-size: 1.1rem; color: var(--text-heading);">Sarah Weaver</h4><p style="font-size: 0.7rem; color: var(--accent-solid);">Artisan Fiber Vendor</p></div>
+                    </div>
+                    <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+                        <p class="sidebar-section-title">Dashboard</p>
+                        <a href="#" data-section="overview" class="sidebar-link active"><i class="fas fa-chart-line"></i> <span>Overview</span></a>
+                        <a href="#" data-section="products" class="sidebar-link"><i class="fas fa-ball-yarn"></i> <span>My Yarn Listings</span></a>
+                        <a href="#" data-section="applications" class="sidebar-link"><i class="fas fa-clipboard-list"></i> <span>Market Applications</span></a>
+                        <a href="#" data-section="markets" class="sidebar-link"><i class="fas fa-store"></i> <span>Upcoming Fiber Markets</span></a>
+                        <a href="#" data-section="earnings" class="sidebar-link"><i class="fas fa-coins"></i> <span>Earnings & Sales</span></a>
+                        <a href="#" data-section="profile" class="sidebar-link"><i class="fas fa-user-circle"></i> <span>Studio Profile</span></a>
+                        <a href="#" data-section="messages" class="sidebar-link"><i class="fas fa-envelope"></i> <span>Messages</span><span class="ml-auto" style="background: var(--accent-solid); color: white; font-size: 0.7rem; padding: 0.125rem 0.5rem; border-radius: 40px;">3</span></a>
+                        <a href="#" data-section="settings" class="sidebar-link"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+                        <a href="#" data-section="logout" class="sidebar-link logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- RIGHT CONTENT -->
+            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1.8rem;">
+                
+                <!-- OVERVIEW SECTION - FIXED TEXT VISIBILITY -->
+                <div id="overview" class="user-section">
+                    <div class="dashboard-card bg-gradient-gold reveal welcome-banner" style="padding: 1.8rem;">
+                        <h1 class="font-serif" style="font-size: 1.8rem; color: white;">Welcome back, Sarah! 🧶</h1>
+                        <p style="opacity: 0.95; color: rgba(255,255,255,0.95);">Your artisan fiber mill hub — manage yarn listings, fiber market applications, and studio earnings.</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="dashboard-card reveal stat-card" style="padding: 1.5rem;">
+                            <p class="stat-label"><i class="fas fa-ball-yarn"></i> ACTIVE LISTINGS</p>
+                            <p class="stat-value">12</p>
+                            <p class="stat-sub">4 new this month</p>
+                        </div>
+                        <div class="dashboard-card reveal stat-card" style="padding: 1.5rem;">
+                            <p class="stat-label"><i class="fas fa-dollar-sign"></i> TOTAL SALES</p>
+                            <p class="stat-value">$8,420</p>
+                            <p class="stat-sub">↑ 18% from last quarter</p>
+                        </div>
+                        <div class="dashboard-card reveal stat-card" style="padding: 1.5rem;">
+                            <p class="stat-label"><i class="fas fa-users"></i> CUSTOMERS SERVED</p>
+                            <p class="stat-value">156</p>
+                            <p class="stat-sub">↑ 28 this month</p>
+                        </div>
+                        <div class="dashboard-card reveal stat-card" style="padding: 1.5rem;">
+                            <p class="stat-label"><i class="fas fa-star"></i> STUDIO RATING</p>
+                            <p class="stat-value">4.9 ★</p>
+                            <p class="stat-sub">Artisan Certified</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Market Applications -->
+                    <div class="dashboard-card reveal" style="padding: 1.5rem;">
+                        <div class="flex-between">
+                            <h2 class="font-serif" style="font-size: 1.3rem; color: var(--text-heading);"><span class="text-accent">Recent</span> Fiber Market Applications</h2>
+                            <button data-section="applications" class="btn-outline-small" style="cursor: pointer;">View all →</button>
+                        </div>
+                        <div class="overflow-x-auto" style="margin-top: 1rem;">
+                            <table>
+                                <thead>
+                                    <tr><th>Market Name</th><th>Date</th><th>Status</th><th>Booth Fee</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Artisan Wool Festival</td><td>Jun 10-12, 2026</td><td><span class="badge-approved">Approved</span></td><td>$350</td></tr>
+                                    <tr><td>Natural Fiber Expo</td><td>Jul 22-24, 2026</td><td><span class="badge-pending">Pending Curation</span></td><td>$420</td></tr>
+                                    <tr><td>Sheep & Wool Celebration</td><td>Aug 5-7, 2026</td><td><span class="badge-approved">Invited</span></td><td>$380</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Best Selling Yarns -->
+                    <div class="dashboard-card reveal" style="padding: 1.5rem;">
+                        <h2 class="font-serif" style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--text-heading);"><span class="text-accent">Best Selling</span> Yarns</h2>
+                        <div class="product-item"><div><i class="fas fa-cloud-moon text-accent"></i> <strong>Merino DK Undyed</strong><br><span class="stat-sub">19.5 micron, 100g</span></div><div><span class="badge-active">124 sold</span></div></div>
+                        <div class="product-item"><div><i class="fas fa-mountain-sun text-accent"></i> <strong>Baby Alpaca Silk</strong><br><span class="stat-sub">Luxury blend, worsted weight</span></div><div><span class="badge-active">87 sold</span></div></div>
+                        <div class="product-item"><div><i class="fas fa-feather text-accent"></i> <strong>Hand-Dyed Sock Yarn</strong><br><span class="stat-sub">Small batch indigo</span></div><div><span class="badge-active">63 sold</span></div></div>
+                    </div>
+                    
+                    <!-- Upcoming Pop-Up Events -->
+                    <div class="dashboard-card reveal" style="padding: 1.5rem;">
+                        <h2 class="font-serif" style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--text-heading);"><span class="text-accent">Upcoming</span> Pop-Up Events</h2>
+                        
+                        <div class="event-card">
+                            <div class="flex-between" style="flex-wrap: wrap; gap: 0.75rem;">
+                                <div class="flex-start">
+                                    <i class="fas fa-crown text-accent" style="font-size: 1.2rem;"></i>
+                                    <div>
+                                        <p class="event-title">Artisan Wool Festival</p>
+                                        <p class="event-location">Downtown Market Hall · Booth #8</p>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <p class="event-date">Jun 10, 2026</p>
+                                    <span class="featured-badge">Premium Slot</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="event-card">
+                            <div class="flex-between" style="flex-wrap: wrap; gap: 0.75rem;">
+                                <div class="flex-start">
+                                    <i class="fas fa-champagne-glasses text-accent" style="font-size: 1.2rem;"></i>
+                                    <div>
+                                        <p class="event-title">Natural Dye Studio Tour</p>
+                                        <p class="event-location">Open Studio Weekend</p>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <p class="event-date">Jul 18, 2026</p>
+                                    <span class="featured-badge">Featured Vendor</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUCTS SECTION -->
+                <div id="products" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <div class="flex-between" style="margin-bottom: 1.5rem;">
+                            <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">My</span> Yarn Listings</h2>
+                            <button class="btn-apply"><i class="fas fa-plus"></i> Add New Listing</button>
+                        </div>
+                        <div class="product-item"><div><i class="fas fa-cloud-moon text-accent"></i> <strong>Merino DK Undyed</strong><br><span class="stat-sub">$18.50 · 100g / 246yds · In stock: 45</span></div><div><button class="btn-outline-small" style="padding: 0.3rem 1rem;">Edit</button></div></div>
+                        <div class="product-item"><div><i class="fas fa-mountain-sun text-accent"></i> <strong>Baby Alpaca Silk Worsted</strong><br><span class="stat-sub">$26.00 · 100g / 218yds · In stock: 28</span></div><div><button class="btn-outline-small" style="padding: 0.3rem 1rem;">Edit</button></div></div>
+                        <div class="product-item"><div><i class="fas fa-feather text-accent"></i> <strong>Farmstead Aran</strong><br><span class="stat-sub">$23.00 · 150g / 300yds · In stock: 32</span></div><div><button class="btn-outline-small" style="padding: 0.3rem 1rem;">Edit</button></div></div>
+                        <div class="product-item"><div><i class="fas fa-palette text-accent"></i> <strong>Hand-Dyed Sock (Indigo)</strong><br><span class="stat-sub">$31.00 · 100g / 460yds · In stock: 18</span></div><div><button class="btn-outline-small" style="padding: 0.3rem 1rem;">Edit</button></div></div>
+                    </div>
+                </div>
+                
+                <!-- APPLICATIONS SECTION -->
+                <div id="applications" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <h2 class="font-serif" style="margin-bottom: 1rem; color: var(--text-heading);"><span class="text-accent">Fiber Market</span> Applications</h2>
+                        <div class="flex-between" style="border-bottom: 1px solid var(--border-light); padding: 0.8rem 0;"><div><i class="fas fa-gem text-accent"></i> <strong>Natural Fiber Expo 2026</strong></div><span class="badge-pending">Under Review</span></div>
+                        <div class="flex-between" style="border-bottom: 1px solid var(--border-light); padding: 0.8rem 0;"><div><i class="fas fa-crown text-accent"></i> <strong>Artisan Wool Festival</strong></div><span class="badge-approved">Approved ✅</span></div>
+                        <div class="flex-between" style="padding: 0.8rem 0;"><div><i class="fas fa-tree text-accent"></i> <strong>Sheep & Wool Celebration</strong></div><span class="badge-approved">Invited</span></div>
+                        <div class="mt-4" style="margin-top: 1.5rem;"><button class="btn-apply">Apply for New Market</button></div>
+                    </div>
+                </div>
+                
+                <!-- MARKETS SECTION -->
+                <div id="markets" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">Upcoming</span> Fiber Markets</h2>
+                        <p class="mt-3" style="margin-top: 1rem; line-height: 1.8; color: var(--text-body);">🧶 Artisan Wool Festival - Jun 10-12, 2026<br>🌸 Natural Fiber Expo - Jul 22-24, 2026<br>🍂 Fall Fiber Retreat - Sep 15-17, 2026<br>✨ Holiday Yarn Market - Dec 5-6, 2026</p>
+                    </div>
+                </div>
+                
+                <!-- EARNINGS SECTION -->
+                <div id="earnings" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">Earnings</span> & Sales</h2>
+                        <p style="font-size: 1.4rem; font-weight: 800; margin-top: 0.5rem; color: var(--text-heading);">This Month: $2,340</p>
+                        <p style="margin-top: 0.5rem; color: var(--text-body);">Pending Payout: $680</p>
+                        <p style="color: var(--text-body);">Total Paid (YTD): $7,740</p>
+                        <hr style="margin: 1rem 0; border-color: var(--border-light);">
+                        <p style="color: var(--text-body);"><strong style="color: var(--text-heading);">Sales by Product:</strong><br>Merino DK: $832<br>Alpaca Silk: $728<br>Hand-Dyed Sock: $620<br>Farmstead Aran: $460</p>
+                    </div>
+                </div>
+                
+                <!-- PROFILE SECTION -->
+                <div id="profile" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">Studio</span> Profile</h2>
+                        <p style="margin-top: 1rem; color: var(--text-body);"><strong style="color: var(--text-heading);">Sarah Weaver</strong><br>sarah@woolmill.com<br>Artisan Fiber Producer since 2022<br>Total Markets Participated: 12<br>Avg Customer Rating: 4.9 ★<br>Studio Location: Vermont, USA<br>Specialty: Small-batch natural dyes, ethical wool</p>
+                        <button class="btn-apply mt-4" style="margin-top: 1.5rem;">Edit Profile</button>
+                    </div>
+                </div>
+                
+                <!-- MESSAGES SECTION -->
+                <div id="messages" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">Messages</span></h2>
+                        <div class="message-item"><p class="font-bold">Wool Festival Curator</p><p style="color: var(--text-body);">Your booth assignment for Artisan Wool Festival is ready! Setup starts at 9 AM on June 10.</p><span class="badge-approved">2h ago</span></div>
+                        <div class="message-item mt-3" style="margin-top: 0.75rem;"><p class="font-bold">Customer Inquiry</p><p style="color: var(--text-body);">Sarah, do you offer wholesale pricing for the Baby Alpaca Silk?</p><span class="badge-approved">Yesterday</span></div>
+                        <div class="message-item"><p class="font-bold">Natural Dye Workshop</p><p style="color: var(--text-body);">You've been selected to host a dye demonstration at the Fall Fiber Retreat!</p><span class="badge-approved">3 days ago</span></div>
+                    </div>
+                </div>
+                
+                <!-- SETTINGS SECTION -->
+                <div id="settings" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 1.8rem;">
+                        <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">Settings</span></h2>
+                        <p style="margin-top: 0.5rem; color: var(--text-body);">Email notifications, shipping preferences, tax information, and account security for your fiber mill storefront.</p>
+                        <div style="margin-top: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.75rem; color: var(--text-body); cursor: pointer;"><input type="checkbox" style="margin-right: 0.75rem;"> Email me about new market opportunities</label>
+                            <label style="display: block; margin-bottom: 0.75rem; color: var(--text-body); cursor: pointer;"><input type="checkbox" style="margin-right: 0.75rem;"> Receive monthly sales reports</label>
+                            <label style="display: block; margin-bottom: 0.75rem; color: var(--text-body); cursor: pointer;"><input type="checkbox" style="margin-right: 0.75rem;"> Notify me about dye batch alerts</label>
+                        </div>
+                        <button class="btn-apply mt-4" style="margin-top: 1.5rem;">Save Preferences</button>
+                    </div>
+                </div>
+                
+                <!-- LOGOUT SECTION -->
+                <div id="logout" class="user-section hidden">
+                    <div class="dashboard-card" style="padding: 2.5rem; max-width: 500px; margin: 0 auto; text-align: center;">
+                        <div style="background: var(--accent-soft); width: 70px; height: 70px; border-radius: 50%; display: flex; margin: 0 auto 1rem; align-items: center; justify-content: center;"><i class="fas fa-sign-out-alt" style="font-size: 2rem; color: var(--accent-solid);"></i></div>
+                        <h3 class="font-serif" style="color: var(--text-heading);">Ready to leave?</h3>
+                        <p style="color: var(--text-body); margin-top: 0.5rem;">Your session will end and you'll be signed out of your vendor dashboard.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                            <button id="confirmLogoutBtn" style="background: #dc2626; color: white; padding: 0.6rem 1.8rem; border-radius: 40px; border: none; cursor: pointer; font-weight: 600;">Sign Out</button>
+                            <button id="cancelLogoutBtn" style="background: transparent; border: 1px solid var(--accent-solid); padding: 0.6rem 1.8rem; border-radius: 40px; cursor: pointer; color: var(--accent-solid); font-weight: 600;">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Status Banner -->
+                <div class="dashboard-card bg-gradient-gold" style="padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div class="flex-start">
+                        <span class="status-pulse"></span>
+                        <div>
+                            <p class="font-bold" style="color: white;">Artisan Vendor Active</p>
+                            <p style="font-size: 0.7rem; opacity: 0.9; color: rgba(255,255,255,0.9);">Connected to Wool & Fiber Mill Marketplace</p>
+                        </div>
+                    </div>
+                    <div><span class="badge-approved" style="background: rgba(255,255,255,0.2); color: white;">Next Market: Jun 10</span></div>
+                </div>
+                
+                <footer style="text-align: center; font-size: 0.7rem; border-top: 1px solid var(--border-light); padding: 2rem 0 1rem;">
+                    <p class="footer-text">© 2026 Wool & Fiber Mill — Artisan Local Yarn Production. Vendor Dashboard.</p>
+                    <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem;">
+                        <a href="#" class="footer-link">Privacy</a>
+                        <a href="#" class="footer-link">Vendor Terms</a>
+                        <a href="#" class="footer-link">Support</a>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        (function() {
+            const htmlEl = document.documentElement;
+            const themeToggle = document.getElementById('theme-toggle');
+            function setTheme(theme) { 
+                htmlEl.setAttribute('data-theme', theme); 
+                localStorage.setItem('theme', theme);
+            }
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+            if(themeToggle) themeToggle.addEventListener('click', () => setTheme(htmlEl.getAttribute('data-theme') === 'light' ? 'dark' : 'light'));
+            
+            const rtlToggle = document.getElementById('rtl-toggle');
+            function setDir(dir) { htmlEl.setAttribute('dir', dir); localStorage.setItem('dir', dir); }
+            const savedDir = localStorage.getItem('dir') || 'ltr';
+            setDir(savedDir);
+            if(rtlToggle) rtlToggle.addEventListener('click', () => setDir(htmlEl.getAttribute('dir') === 'ltr' ? 'rtl' : 'ltr'));
+            
+            const drawer = document.getElementById('sidebar-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            const openBtn = document.getElementById('mobile-menu-toggle-btn');
+            const closeDrawerBtn = document.getElementById('close-drawer');
+            function openDrawer() { drawer.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+            function closeDrawer() { drawer.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
+            window.closeDrawer = closeDrawer;
+            if(openBtn) openBtn.addEventListener('click', openDrawer);
+            if(closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeDrawer);
+            overlay.addEventListener('click', closeDrawer);
+            
+            const sections = ['overview', 'products', 'applications', 'markets', 'earnings', 'profile', 'messages', 'settings', 'logout'];
+            function activateSection(sectionId) {
+                sections.forEach(id => { const el = document.getElementById(id); if(el) el.classList.add('hidden'); });
+                const activeSection = document.getElementById(sectionId);
+                if(activeSection) activeSection.classList.remove('hidden');
+                document.querySelectorAll('.sidebar-link').forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('data-section') === sectionId) link.classList.add('active');
+                });
+                closeDrawer();
+            }
+            window.activateSection = activateSection;
+            
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const section = link.getAttribute('data-section');
+                    if(section) activateSection(section);
+                });
+            });
+            
+            const confirmBtn = document.getElementById('confirmLogoutBtn');
+            const cancelBtn = document.getElementById('cancelLogoutBtn');
+            if(confirmBtn) confirmBtn.addEventListener('click', () => { alert('Signed out successfully!'); activateSection('overview'); });
+            if(cancelBtn) cancelBtn.addEventListener('click', () => activateSection('overview'));
+            
+            const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            
+            const updateUserDisplay = () => { if(window.innerWidth >= 768) { const info = document.querySelector('.user-info-desk'); if(info) info.style.display = 'block'; } };
+            updateUserDisplay();
+            window.addEventListener('resize', updateUserDisplay);
+        })();
+    </script>
+</body>
+</html>

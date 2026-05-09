@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Page not found - Wool & Fiber Mill">
+    <title>404 | Page Not Found - Wool & Fiber Mill</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FEFCF8;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2C2C2C;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #0F0F0F;
+                color: #E4E4E4;
+            }
+            .error-card {
+                background: #1E1E1E;
+                border-color: #332033;
+            }
+            .accent-bg {
+                background: linear-gradient(135deg, #7f0371 0%, #d9a3cc 100%);
+            }
+            .sub-text {
+                color: #B0B0B0;
+            }
+            .divider {
+                background: #2a2a2a;
+            }
+        }
+
+        /* Main container - no scroll */
+        .error-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* Card styling - matches client theme */
+        .error-card {
+            max-width: 600px;
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid #E6DDE6;
+            border-radius: 32px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .error-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 60px -12px rgba(127, 3, 113, 0.2);
+        }
+
+        /* Decorative yarn/wool icon */
+        .icon-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #7f0371 0%, #9b4d8c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .icon-wrapper i {
+            font-size: 4rem;
+            color: white;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* 404 Number */
+        .error-code {
+            font-size: 8rem;
+            font-weight: 900;
+            font-family: 'Merriweather', serif;
+            background: linear-gradient(135deg, #7f0371 0%, #9b4d8c 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 0.02em;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Title */
+        .error-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Merriweather', serif;
+            color: #1A1A1A;
+            margin-bottom: 1rem;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .error-title {
+                color: #FFFFFF;
+            }
+        }
+
+        /* Description */
+        .error-description {
+            font-size: 1rem;
+            color: #4A4A4A;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .error-description {
+                color: #B0B0B0;
+            }
+        }
+
+        /* Decorative yarn divider */
+        .divider {
+            width: 80px;
+            height: 3px;
+            background: #E6DDE6;
+            margin: 1.5rem auto;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "🧶";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            background: #FFFFFF;
+            padding: 0 8px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .divider::before,
+            .divider::after {
+                background: #1E1E1E;
+            }
+        }
+
+        .divider::before {
+            left: -20px;
+        }
+
+        .divider::after {
+            right: -20px;
+        }
+
+        /* Button group */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        /* Primary button */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #7f0371;
+            color: white;
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: #5a0250;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(127, 3, 113, 0.3);
+        }
+
+        /* Secondary button */
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 1.5px solid #7f0371;
+            color: #7f0371;
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(127, 3, 113, 0.1);
+            transform: translateY(-2px);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .btn-secondary {
+                border-color: #d9a3cc;
+                color: #d9a3cc;
+            }
+            .btn-secondary:hover {
+                background: rgba(217, 163, 204, 0.15);
+            }
+        }
+
+        /* Help text */
+        .help-text {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #9CA3AF;
+        }
+
+        .help-text a {
+            color: #7f0371;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .help-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .help-text a {
+                color: #d9a3cc;
+            }
+        }
+
+        /* Small screens adjustments - still no scroll */
+        @media (max-width: 640px) {
+            .error-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .error-code {
+                font-size: 5rem;
+            }
+            
+            .error-title {
+                font-size: 1.4rem;
+            }
+            
+            .error-description {
+                font-size: 0.85rem;
+            }
+            
+            .icon-wrapper {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .icon-wrapper i {
+                font-size: 3rem;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 0.65rem 1.5rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Height adjustment for very small screens */
+        @media (max-height: 600px) {
+            .error-card {
+                padding: 1.5rem;
+            }
+            
+            .icon-wrapper {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 1rem;
+            }
+            
+            .icon-wrapper i {
+                font-size: 2rem;
+            }
+            
+            .error-code {
+                font-size: 4rem;
+                margin-bottom: 0.25rem;
+            }
+            
+            .error-title {
+                font-size: 1.2rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .error-description {
+                margin-bottom: 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .divider {
+                margin: 1rem auto;
+            }
+            
+            .help-text {
+                margin-top: 1rem;
+            }
+        }
+
+        /* Disable any potential scroll on html */
+        html {
+            overflow: hidden;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="error-container">
+    <div class="error-card">
+        <!-- Animated yarn ball icon -->
+        <div class="icon-wrapper">
+            <i class="fas fa-thread"></i>
+        </div>
+        
+        <!-- 404 Code -->
+        <div class="error-code">404</div>
+        
+        <!-- Main Title -->
+        <h1 class="error-title">Lost in the Fiber</h1>
+        
+        <!-- Description -->
+        <p class="error-description">
+            Oops! The yarn you're looking for seems to have unraveled. 
+            This page doesn't exist or has been moved to another skein.
+        </p>
+        
+        <!-- Decorative divider -->
+        <div class="divider"></div>
+        
+        <!-- Action Buttons -->
+        <div class="button-group">
+            <a href="index.html" class="btn-primary" id="homeBtn">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+            <a href="index.html" class="btn-secondary" id="goBackBtn">
+                <i class="fas fa-arrow-left"></i> Go Back
+            </a>
+        </div>
+        
+        <!-- Help text -->
+        <p class="help-text">
+            Need assistance? <a href="#">Contact Support</a> or 
+            <a href="#">Browse Fiber Markets</a>
+        </p>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Get the base URL for navigation
+        const baseUrl = window.location.origin;
+        
+        // Home button functionality
+        const homeBtn = document.getElementById('homeBtn');
+        if (homeBtn) {
+            homeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = baseUrl + '/';
+            });
+        }
+        
+        // Go back button functionality
+        const goBackBtn = document.getElementById('goBackBtn');
+        if (goBackBtn) {
+            goBackBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.history.back();
+            });
+        }
+        
+        // Optional: Add subtle parallax effect on mouse move (just for fun, no scroll)
+        const card = document.querySelector('.error-card');
+        if (card && window.innerWidth > 768) {
+            document.addEventListener('mousemove', function(e) {
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                const moveX = (mouseX - 0.5) * 4;
+                const moveY = (mouseY - 0.5) * 4;
+                card.style.transform = `translateY(-4px) perspective(1000px) rotateX(${moveY * 0.5}deg) rotateY(${moveX * 0.5}deg)`;
+            });
+            
+            // Reset on mouse leave
+            document.addEventListener('mouseleave', function() {
+                card.style.transform = 'translateY(-4px)';
+            });
+        }
+        
+        // Prevent any accidental scroll attempts
+        window.addEventListener('wheel', function(e) {
+            if (document.body.scrollHeight <= window.innerHeight) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Prevent touch move on body
+        document.body.addEventListener('touchmove', function(e) {
+            if (document.body.scrollHeight <= window.innerHeight) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Ensure no scrollbars appear
+        const style = document.createElement('style');
+        style.textContent = `
+            ::-webkit-scrollbar {
+                display: none;
+            }
+            body, html {
+                overflow: hidden;
+                position: fixed;
+            }
+        `;
+        document.head.appendChild(style);
+    })();
+</script>
+
+</body>
+</html>
