@@ -468,12 +468,32 @@
                 padding: 1rem;
                 margin-top: 80px;
             }
+            .navbar {
+                height: 70px;
+            }
+            .nav-flex {
+                flex-wrap: nowrap !important;
+            }
+            .nav-flex .flex-start {
+                flex-wrap: nowrap !important;
+                gap: 0.5rem !important;
+            }
         }
         
         @media (max-width: 640px) {
             main {
                 padding: 0.75rem;
                 margin-top: 70px;
+            }
+            .logo-suffix {
+                display: none !important;
+            }
+            .logo-text {
+                font-size: 1.05rem !important;
+                display: inline-block !important;
+            }
+            .logo {
+                gap: 6px !important;
             }
         }
         
@@ -833,8 +853,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <a href="index.html" class="logo">
-                    <div class="logo-icon"><i class="fas fa-crown"></i></div>
-                    <span class="logo-text">Wool<span>Mill</span> Admin</span>
+                    <div class="logo-icon"><i class="fas fa-feather-alt"></i></div>
+                    <span class="logo-text">Wool<span>Mill</span><span class="logo-suffix"> Admin</span></span>
                 </a>
             </div>
             <div class="flex-start">
