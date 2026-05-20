@@ -152,13 +152,13 @@
             border-color: var(--accent-solid);
         }
 
-        /* Register Card - Tight Content, No Internal Scroll */
+        /* Register Card - Tight Content, Matching Login Width & Height Constraints */
         .register-card {
             background: var(--bg-main);
-            border-radius: 48px;
+            border-radius: 36px;
             width: 100%;
-            max-width: 460px;
-            padding: 32px 36px;
+            max-width: 440px;
+            padding: 16px 28px;
             box-shadow: var(--shadow-lg);
             border: 1px solid rgba(127, 3, 113, 0.15);
             transition: all 0.3s ease;
@@ -168,17 +168,17 @@
         /* Center Logo inside Card */
         .logo-center {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
         .logo-center-icon {
-            width: 55px;
-            height: 55px;
+            width: 40px;
+            height: 40px;
             background: var(--accent);
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 12px;
+            margin: 0 auto 8px;
         }
         .logo-center-icon i {
             color: white;
@@ -196,22 +196,22 @@
         /* Title */
         .register-title {
             text-align: center;
-            margin-bottom: 22px;
+            margin-bottom: 8px;
         }
         .register-title h1 {
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             font-weight: 700;
             color: var(--text-heading);
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         .register-title p {
             color: var(--text-light);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
         /* Form - Tight Spacing */
         .form-group {
-            margin-bottom: 14px;
+            margin-bottom: 6px;
         }
         .form-group label {
             display: block;
@@ -286,7 +286,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin: 16px 0;
+            margin: 8px 0;
         }
         .terms-row input {
             width: 15px;
@@ -335,7 +335,7 @@
             display: flex;
             align-items: center;
             text-align: center;
-            margin: 18px 0;
+            margin: 8px 0;
         }
         .divider::before,
         .divider::after {
@@ -354,7 +354,7 @@
             display: flex;
             gap: 10px;
             justify-content: center;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
         }
         .social-btn {
             flex: 1;
@@ -382,6 +382,7 @@
         }
         .social-btn.google i { color: #DB4437; }
         .social-btn.facebook i { color: #4267B2; }
+        .social-btn.apple i { color: var(--text-heading); }
 
         /* Login Link - Compact */
         .login-link {
@@ -492,6 +493,29 @@
                 font-size: 0.85rem;
             }
         }
+    
+        /* Readability overrides: headings < 600, paragraph/subheadings 400-550 */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500 !important;
+        }
+        .subtitle, .hero-badge, .featured-tag, .team-role, .hour-day, .category-count, .popular-date {
+            font-weight: 550 !important;
+        }
+        .btn-primary, .btn-outline, .btn-light, .btn-apply, .btn-outline-light, .blog-btn, .btn-outline-dark, .btn-solid-dark {
+            font-weight: 550 !important;
+        }
+        .logo-text, .mobile-logo span {
+            font-weight: 550 !important;
+        }
+        .mobile-nav-link, .mobile-dropdown-btn, .mobile-theme-buttons button, .mobile-control-btn {
+            font-weight: 550 !important;
+        }
+        .col-stat-num, .col-stat-lbl, .stat-number, .stat-item {
+            font-weight: 550 !important;
+        }
+        .testi-author, .faq-question, .meta-info span, .timeline-year {
+            font-weight: 550 !important;
+        }
     </style>
 </head>
 <body>
@@ -509,7 +533,7 @@
             <i class="fas fa-circle-half-stroke"></i>
         </button>
         <button class="control-btn" id="rtlToggle" title="RTL/LTR Mode">
-            <i class="fas fa-language"></i>
+           <i class="fas fa-right-left"></i>
         </button>
     </div>
 
@@ -544,7 +568,13 @@
                 </div>
 
                 <!-- Email -->
-               
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="john.doe@example.com" required>
+                    </div>
+                </div>
 
                 <!-- Password -->
                 <div class="form-group">
@@ -570,8 +600,7 @@
                     </div>
                 </div>
 
-                <!-- Interest Dropdown -->
-               
+
 
                 <!-- Terms Checkbox -->
                 <div class="terms-row">
@@ -601,6 +630,10 @@
                 <button class="social-btn facebook" id="facebookRegister">
                     <i class="fab fa-facebook-f"></i>
                     <span>Facebook</span>
+                </button>
+                <button class="social-btn apple" id="appleRegister">
+                    <i class="fab fa-apple"></i>
+                    <span>Apple</span>
                 </button>
             </div>
 
@@ -714,7 +747,6 @@
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
                 const terms = document.getElementById('terms').checked;
-                const interest = document.getElementById('interest').value;
                 
                 // Validation
                 if (!firstName || !lastName || !email || !password) {
@@ -738,7 +770,8 @@
                 }
                 
                 // Success message
-              window.location.href = "register.html";
+                alert('✅ Registration successful! Welcome to the Wool & Fiber Mill community.');
+                window.location.href = "login.html";
                 
                 // Reset form
                 registerForm.reset();
@@ -757,8 +790,21 @@
             // Social registration handlers
             const googleBtn = document.getElementById('googleRegister');
             const facebookBtn = document.getElementById('facebookRegister');
+            const appleBtn = document.getElementById('appleRegister');
             
-           
+            function handleGoogleRegister() {
+                alert('🔐 Google Sign Up demo. In production, this would redirect to Google authentication.');
+            }
+            function handleFacebookRegister() {
+                alert('🔐 Facebook Sign Up demo. In production, this would redirect to Facebook authentication.');
+            }
+            function handleAppleRegister() {
+                alert('🔐 Apple Sign Up demo. In production, this would redirect to Apple authentication.');
+            }
+
+            if (googleBtn) googleBtn.addEventListener('click', handleGoogleRegister);
+            if (facebookBtn) facebookBtn.addEventListener('click', handleFacebookRegister);
+            if (appleBtn) appleBtn.addEventListener('click', handleAppleRegister);
             
             // Enter key support
             const inputs = ['firstName', 'lastName', 'email', 'password', 'confirmPassword'];

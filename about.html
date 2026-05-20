@@ -818,6 +818,29 @@
             transition: opacity 0.7s ease, transform 0.7s ease;
         }
         .animate-once.visible { opacity: 1; transform: translateY(0); }
+    
+        /* Readability overrides: headings < 600, paragraph/subheadings 400-550 */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500 !important;
+        }
+        .subtitle, .hero-badge, .featured-tag, .team-role, .hour-day, .category-count, .popular-date {
+            font-weight: 550 !important;
+        }
+        .btn-primary, .btn-outline, .btn-light, .btn-apply, .btn-outline-light, .blog-btn, .btn-outline-dark, .btn-solid-dark {
+            font-weight: 550 !important;
+        }
+        .logo-text, .mobile-logo span {
+            font-weight: 550 !important;
+        }
+        .mobile-nav-link, .mobile-dropdown-btn, .mobile-theme-buttons button, .mobile-control-btn {
+            font-weight: 550 !important;
+        }
+        .col-stat-num, .col-stat-lbl, .stat-number, .stat-item {
+            font-weight: 550 !important;
+        }
+        .testi-author, .faq-question, .meta-info span, .timeline-year {
+            font-weight: 550 !important;
+        }
     </style>
 </head>
 <body>
@@ -838,7 +861,7 @@
             </div>
             <div class="navbar-right">
                 <button class="theme-toggle" id="desktopThemeToggle"><i class="fas fa-circle-half-stroke"></i></button>
-                <button class="rtl-toggle" id="desktopRtlToggle"> <i class="fas fa-language"></i></button>
+                <button class="rtl-toggle" id="desktopRtlToggle"> <i class="fas fa-right-left"></i></button>
                 <a href="login.html" class="btn-outline"> Login</a>
                 <a href="register.html" class="btn-outline"> Register</a>
             </div>
@@ -869,7 +892,7 @@
             <div class="mobile-control-section">
                 <div class="mobile-control-buttons">
                     <button class="mobile-control-btn" id="mobileThemeToggleMain"><i class="fas fa-circle-half-stroke"></i> <span>Dark/Light</span></button>
-                    <button class="mobile-control-btn" id="mobileRtlToggleMain"><i class="fas fa-language"></i> <span>RTL/LTR</span></button>
+                    <button class="mobile-control-btn" id="mobileRtlToggleMain"><i class="fas fa-right-left"></i> <span>RTL/LTR</span></button>
                 </div>
             </div>
         </div>
@@ -957,7 +980,7 @@
         <div class="container">
             <div class="footer-inner">
                 <div class="footer-brand"><div class="logo" style="justify-content: flex-start; margin-bottom: 8px;"><div class="logo-icon"><i class="fas fa-feather-alt"></i></div><span class="logo-text" style="color:white;">Wool<span style="color:var(--accent-solid);">Mill</span></span></div><p>Honoring traditional fiber craftsmanship with ethical sourcing and small-batch production since 2015.</p><div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-pinterest"></i></a><a href="#"><i class="fab fa-youtube"></i></a><a href="#"><i class="fab fa-ravelry"></i></a></div></div>
-                <div class="footer-links">Quick links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html"> About</a></li><li><a href="services.html">Services</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+                <div class="footer-links"><h4>Quick links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html"> About</a></li><li><a href="services.html">Services</a></li><li><a href="contact.html">Contact</a></li></ul></div>
                 <div class="footer-links"><h4>Support</h4><ul><li><a href="#">Shipping & Returns</a></li><li><a href="#">Sustainability Pledge</a></li><li><a href="#">FAQ</a></li><li><a href="#">Contact Us</a></li></ul></div>
                 <div class="footer-newsletter"><h4>Woolly Updates</h4><p>Get dye batch alerts & studio news.</p><div class="newsletter-group"><input type="email" placeholder="Your email"><button><i class="fas fa-arrow-right"></i></button></div><p style="font-size: 0.7rem; margin-top: 20px;">No spam, just fiber love.</p></div>
             </div>

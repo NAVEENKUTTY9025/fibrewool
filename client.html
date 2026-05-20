@@ -105,7 +105,7 @@
         .dashboard-card {
             background: var(--bg-card);
             border: 1px solid var(--card-border);
-            border-radius: 28px;
+            border-radius: 32px;
             transition: all 0.3s ease;
             box-shadow: var(--shadow-sm);
         }
@@ -306,18 +306,14 @@
         
         /* Sidebar Layout */
         .sidebar-desktop {
-            width: 300px;
+            width: 280px;
             flex-shrink: 0;
         }
         
         .sidebar-sticky {
-            position: sticky;
-            top: 100px;
-            background: var(--bg-card);
-            border-radius: 28px;
-            padding: 1.5rem;
-            border: 1px solid var(--card-border);
-            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         
         /* Mobile Drawer */
@@ -382,7 +378,90 @@
         
         @media (min-width: 1025px) {
             .menu-toggle { display: none; }
-            .sidebar-desktop { display: block !important; }
+            .sidebar-desktop {
+                display: block !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 280px;
+                background: var(--sidebar-bg);
+                border-right: 1px solid var(--border-light);
+                padding: 2.5rem 1.5rem;
+                z-index: 1010;
+                overflow-y: auto;
+            }
+            .navbar {
+                left: 280px !important;
+                width: calc(100% - 280px) !important;
+            }
+            main {
+                margin-left: 280px !important;
+                max-width: calc(100% - 280px) !important;
+                padding: 2.5rem !important;
+            }
+            [dir="rtl"] .sidebar-desktop {
+                left: auto;
+                right: 0;
+                border-right: none;
+                border-left: 1px solid var(--border-light);
+            }
+            [dir="rtl"] .navbar {
+                left: 0 !important;
+                right: 280px !important;
+            }
+            [dir="rtl"] main {
+                margin-left: 0 !important;
+                margin-right: 280px !important;
+            }
+        }
+        
+        /* Main Content Layout - Mobile Fix */
+        main {
+            max-width: 1400px;
+            margin: 100px auto 0;
+            padding: 1.5rem;
+        }
+        
+        @media (max-width: 1024px) {
+            main {
+                padding: 1rem;
+                margin-top: 80px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            main {
+                padding: 0.75rem;
+                margin-top: 70px;
+            }
+        }
+        
+        .main-flex {
+            display: flex;
+            gap: 2.5rem;
+            flex-direction: row;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        
+        .right-content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+        
+        @media (max-width: 640px) {
+            .right-content {
+                gap: 1rem;
+            }
         }
         
         /* Stats Grid */
@@ -421,7 +500,13 @@
         }
         
         .hidden {
-            display: none;
+            display: none !important;
+        }
+        
+        .user-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
         }
         
         .reveal {
@@ -706,6 +791,29 @@
         [data-theme="dark"] .flex-between .badge-approved {
             color: var(--badge-approved-text);
         }
+    
+        /* Readability overrides: headings < 600, paragraph/subheadings 400-550 */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500 !important;
+        }
+        .subtitle, .hero-badge, .featured-tag, .team-role, .hour-day, .category-count, .popular-date {
+            font-weight: 550 !important;
+        }
+        .btn-primary, .btn-outline, .btn-light, .btn-apply, .btn-outline-light, .blog-btn, .btn-outline-dark, .btn-solid-dark {
+            font-weight: 550 !important;
+        }
+        .logo-text, .mobile-logo span {
+            font-weight: 550 !important;
+        }
+        .mobile-nav-link, .mobile-dropdown-btn, .mobile-theme-buttons button, .mobile-control-btn {
+            font-weight: 550 !important;
+        }
+        .col-stat-num, .col-stat-lbl, .stat-number, .stat-item {
+            font-weight: 550 !important;
+        }
+        .testi-author, .faq-question, .meta-info span, .timeline-year {
+            font-weight: 550 !important;
+        }
     </style>
 </head>
 <body>
@@ -724,7 +832,7 @@
             </div>
             <div class="flex-start">
                 <button id="rtl-toggle" class="icon-btn" title="RTL">
-                    <i class="fas fa-language"></i>
+                    <i class="fas fa-right-left"></i>
                 </button>
                 <button id="theme-toggle" class="icon-btn" title="Theme">
                     <i class="fas fa-moon"></i>
@@ -755,17 +863,16 @@
             <a href="#" data-section="applications" class="sidebar-link"><i class="fas fa-clipboard-list"></i> <span>Market Applications</span></a>
             <a href="#" data-section="markets" class="sidebar-link"><i class="fas fa-store"></i> <span>Upcoming Fiber Markets</span></a>
             <a href="#" data-section="earnings" class="sidebar-link"><i class="fas fa-coins"></i> <span>Earnings & Sales</span></a>
-            <a href="#" data-section="profile" class="sidebar-link"><i class="fas fa-user-circle"></i> <span>Studio Profile</span></a>
             <a href="#" data-section="messages" class="sidebar-link"><i class="fas fa-envelope"></i> <span>Messages</span><span class="ml-auto" style="background: var(--accent-solid); color: white; font-size: 0.7rem; padding: 0.125rem 0.5rem; border-radius: 40px;">3</span></a>
             <a href="#" data-section="settings" class="sidebar-link"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
             <a href="#" data-section="logout" class="sidebar-link logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
         </nav>
     </aside>
-
+ 
     <!-- MAIN DASHBOARD LAYOUT -->
-    <main style="max-width: 1400px; margin: 100px auto 0; padding: 1.5rem;">
-        <div style="display: flex; gap: 1.8rem; flex-direction: row;">
-
+    <main>
+        <div class="main-flex">
+ 
             <!-- DESKTOP SIDEBAR -->
             <aside class="sidebar-desktop">
                 <div class="sidebar-sticky">
@@ -780,16 +887,15 @@
                         <a href="#" data-section="applications" class="sidebar-link"><i class="fas fa-clipboard-list"></i> <span>Market Applications</span></a>
                         <a href="#" data-section="markets" class="sidebar-link"><i class="fas fa-store"></i> <span>Upcoming Fiber Markets</span></a>
                         <a href="#" data-section="earnings" class="sidebar-link"><i class="fas fa-coins"></i> <span>Earnings & Sales</span></a>
-                        <a href="#" data-section="profile" class="sidebar-link"><i class="fas fa-user-circle"></i> <span>Studio Profile</span></a>
                         <a href="#" data-section="messages" class="sidebar-link"><i class="fas fa-envelope"></i> <span>Messages</span><span class="ml-auto" style="background: var(--accent-solid); color: white; font-size: 0.7rem; padding: 0.125rem 0.5rem; border-radius: 40px;">3</span></a>
                         <a href="#" data-section="settings" class="sidebar-link"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
                         <a href="#" data-section="logout" class="sidebar-link logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
                     </nav>
                 </div>
             </aside>
-
+ 
             <!-- RIGHT CONTENT -->
-            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1.8rem;">
+            <div class="right-content">
                 
                 <!-- OVERVIEW SECTION - FIXED TEXT VISIBILITY -->
                 <div id="overview" class="user-section">
@@ -894,10 +1000,76 @@
                             <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">My</span> Yarn Listings</h2>
                             <button class="btn-apply"><i class="fas fa-plus"></i> Add New Listing</button>
                         </div>
-                        <div class="product-item"><div><i class="fas fa-cloud-moon text-accent"></i> <strong>Merino DK Undyed</strong><br><span class="stat-sub">$18.50 · 100g / 246yds · In stock: 45</span></div><div><button class="btn-outline-small" style="padding: 0.3rem 1rem;">Edit</button></div></div>
-                        <div class="product-item"><div><i class="fas fa-mountain-sun text-accent"></i> <strong>Baby Alpaca Silk Worsted</strong><br><span class="stat-sub">$26.00 · 100g / 218yds · In stock: 28</span></div><div><button class="btn-outline-small" style="padding: 0.3rem 1rem;">Edit</button></div></div>
-                        <div class="product-item"><div><i class="fas fa-feather text-accent"></i> <strong>Farmstead Aran</strong><br><span class="stat-sub">$23.00 · 150g / 300yds · In stock: 32</span></div><div><button class="btn-outline-small" style="padding: 0.3rem 1rem;">Edit</button></div></div>
-                        <div class="product-item"><div><i class="fas fa-palette text-accent"></i> <strong>Hand-Dyed Sock (Indigo)</strong><br><span class="stat-sub">$31.00 · 100g / 460yds · In stock: 18</span></div><div><button class="btn-outline-small" style="padding: 0.3rem 1rem;">Edit</button></div></div>
+                        <div class="yarn-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                            <!-- Card 1 -->
+                            <div class="dashboard-card yarn-card" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; border-radius: 24px; border: 1px solid var(--card-border);">
+                                <div>
+                                    <div class="flex-between" style="margin-bottom: 1rem;">
+                                        <div class="icon-btn" style="background: var(--accent-soft); color: var(--accent-solid);"><i class="fas fa-cloud-moon"></i></div>
+                                        <span class="badge-approved" style="background: var(--badge-active-bg); color: var(--badge-active-text);">In Stock</span>
+                                    </div>
+                                    <h3 class="font-serif" style="font-size: 1.2rem; color: var(--text-heading); margin-bottom: 0.5rem;">Merino DK Undyed</h3>
+                                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem;">19.5 micron organic merino, ideal for warm sweaters and scarves.</p>
+                                    <div style="font-size: 0.85rem; color: var(--text-body); margin-bottom: 0.5rem;"><i class="fas fa-weight-hanging text-accent" style="margin-right: 4px;"></i> 100g / 246 yds</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-body); margin-bottom: 1.5rem;"><i class="fas fa-boxes text-accent" style="margin-right: 4px;"></i> Stock level: <strong>45 hanks</strong></div>
+                                </div>
+                                <div class="flex-between" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 1rem;">
+                                    <span style="font-size: 1.4rem; font-weight: 800; color: var(--text-heading);">$18.50</span>
+                                    <button class="btn-outline-small"><i class="fas fa-edit"></i> Edit</button>
+                                </div>
+                            </div>
+                            <!-- Card 2 -->
+                            <div class="dashboard-card yarn-card" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; border-radius: 24px; border: 1px solid var(--card-border);">
+                                <div>
+                                    <div class="flex-between" style="margin-bottom: 1rem;">
+                                        <div class="icon-btn" style="background: var(--accent-soft); color: var(--accent-solid);"><i class="fas fa-mountain-sun"></i></div>
+                                        <span class="badge-approved" style="background: var(--badge-active-bg); color: var(--badge-active-text);">In Stock</span>
+                                    </div>
+                                    <h3 class="font-serif" style="font-size: 1.2rem; color: var(--text-heading); margin-bottom: 0.5rem;">Baby Alpaca Silk Worsted</h3>
+                                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem;">Luxurious baby alpaca spun with mulberry silk for extreme drape and sheen.</p>
+                                    <div style="font-size: 0.85rem; color: var(--text-body); margin-bottom: 0.5rem;"><i class="fas fa-weight-hanging text-accent" style="margin-right: 4px;"></i> 100g / 218 yds</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-body); margin-bottom: 1.5rem;"><i class="fas fa-boxes text-accent" style="margin-right: 4px;"></i> Stock level: <strong>28 hanks</strong></div>
+                                </div>
+                                <div class="flex-between" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 1rem;">
+                                    <span style="font-size: 1.4rem; font-weight: 800; color: var(--text-heading);">$26.00</span>
+                                    <button class="btn-outline-small"><i class="fas fa-edit"></i> Edit</button>
+                                </div>
+                            </div>
+                            <!-- Card 3 -->
+                            <div class="dashboard-card yarn-card" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; border-radius: 24px; border: 1px solid var(--card-border);">
+                                <div>
+                                    <div class="flex-between" style="margin-bottom: 1rem;">
+                                        <div class="icon-btn" style="background: var(--accent-soft); color: var(--accent-solid);"><i class="fas fa-feather"></i></div>
+                                        <span class="badge-approved" style="background: var(--badge-active-bg); color: var(--badge-active-text);">In Stock</span>
+                                    </div>
+                                    <h3 class="font-serif" style="font-size: 1.2rem; color: var(--text-heading); margin-bottom: 0.5rem;">Farmstead Aran</h3>
+                                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem;">Rustic, heavy worsted-weight yarn sourced from local Corriedale sheep.</p>
+                                    <div style="font-size: 0.85rem; color: var(--text-body); margin-bottom: 0.5rem;"><i class="fas fa-weight-hanging text-accent" style="margin-right: 4px;"></i> 150g / 300 yds</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-body); margin-bottom: 1.5rem;"><i class="fas fa-boxes text-accent" style="margin-right: 4px;"></i> Stock level: <strong>32 hanks</strong></div>
+                                </div>
+                                <div class="flex-between" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 1rem;">
+                                    <span style="font-size: 1.4rem; font-weight: 800; color: var(--text-heading);">$23.00</span>
+                                    <button class="btn-outline-small"><i class="fas fa-edit"></i> Edit</button>
+                                </div>
+                            </div>
+                            <!-- Card 4 -->
+                            <div class="dashboard-card yarn-card" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; border-radius: 24px; border: 1px solid var(--card-border);">
+                                <div>
+                                    <div class="flex-between" style="margin-bottom: 1rem;">
+                                        <div class="icon-btn" style="background: var(--accent-soft); color: var(--accent-solid);"><i class="fas fa-palette"></i></div>
+                                        <span class="badge-approved" style="background: var(--badge-pending-bg); color: var(--badge-pending-text); border: 1px solid var(--border-light);">Low Stock</span>
+                                    </div>
+                                    <h3 class="font-serif" style="font-size: 1.2rem; color: var(--text-heading); margin-bottom: 0.5rem;">Hand-Dyed Sock (Indigo)</h3>
+                                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem;">Superwash merino and nylon blend, hand-dyed in small batches with natural indigo.</p>
+                                    <div style="font-size: 0.85rem; color: var(--text-body); margin-bottom: 0.5rem;"><i class="fas fa-weight-hanging text-accent" style="margin-right: 4px;"></i> 100g / 460 yds</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-body); margin-bottom: 1.5rem;"><i class="fas fa-boxes text-accent" style="margin-right: 4px;"></i> Stock level: <strong>18 hanks</strong></div>
+                                </div>
+                                <div class="flex-between" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 1rem;">
+                                    <span style="font-size: 1.4rem; font-weight: 800; color: var(--text-heading);">$31.00</span>
+                                    <button class="btn-outline-small"><i class="fas fa-edit"></i> Edit</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -923,12 +1095,73 @@
                 <!-- EARNINGS SECTION -->
                 <div id="earnings" class="user-section hidden">
                     <div class="dashboard-card" style="padding: 1.8rem;">
-                        <h2 class="font-serif" style="color: var(--text-heading);"><span class="text-accent">Earnings</span> & Sales</h2>
-                        <p style="font-size: 1.4rem; font-weight: 800; margin-top: 0.5rem; color: var(--text-heading);">This Month: $2,340</p>
-                        <p style="margin-top: 0.5rem; color: var(--text-body);">Pending Payout: $680</p>
-                        <p style="color: var(--text-body);">Total Paid (YTD): $7,740</p>
-                        <hr style="margin: 1rem 0; border-color: var(--border-light);">
-                        <p style="color: var(--text-body);"><strong style="color: var(--text-heading);">Sales by Product:</strong><br>Merino DK: $832<br>Alpaca Silk: $728<br>Hand-Dyed Sock: $620<br>Farmstead Aran: $460</p>
+                        <h2 class="font-serif" style="color: var(--text-heading); margin-bottom: 1rem;"><span class="text-accent">Earnings</span> & Sales</h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                            <!-- Financial Summary Card -->
+                            <div style="background: var(--bg-alt); padding: 1.5rem; border-radius: 20px; border: 1px solid var(--card-border);">
+                                <h3 class="font-serif" style="font-size: 1.1rem; color: var(--text-heading); margin-bottom: 1rem;">Summary</h3>
+                                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                    <div class="flex-between">
+                                        <span style="font-size: 0.9rem; color: var(--text-light);">This Month</span>
+                                        <strong style="font-size: 1.2rem; color: var(--accent-solid);">$2,340</strong>
+                                    </div>
+                                    <div class="flex-between">
+                                        <span style="font-size: 0.9rem; color: var(--text-light);">Pending Payout</span>
+                                        <strong style="font-size: 1.1rem; color: var(--text-heading);">$680</strong>
+                                    </div>
+                                    <div class="flex-between" style="border-top: 1px solid var(--border-light); padding-top: 0.75rem; margin-top: 0.25rem;">
+                                        <span style="font-size: 0.9rem; color: var(--text-light); font-weight: 600;">Total Paid (YTD)</span>
+                                        <strong style="font-size: 1.1rem; color: var(--text-heading);">$7,740</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Visual Chart Mock Card -->
+                            <div style="background: var(--bg-alt); padding: 1.5rem; border-radius: 20px; border: 1px solid var(--card-border);">
+                                <h3 class="font-serif" style="font-size: 1.1rem; color: var(--text-heading); margin-bottom: 1rem;">Sales by Yarn</h3>
+                                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                    <!-- Bar 1 -->
+                                    <div>
+                                        <div class="flex-between" style="font-size: 0.8rem; margin-bottom: 0.25rem;">
+                                            <span style="font-weight: 600; color: var(--text-heading);">Merino DK</span>
+                                            <span style="color: var(--text-light); font-weight: 700;">$832 (35%)</span>
+                                        </div>
+                                        <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
+                                            <div class="bg-gradient-gold" style="width: 35%; height: 100%; border-radius: 4px;"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Bar 2 -->
+                                    <div>
+                                        <div class="flex-between" style="font-size: 0.8rem; margin-bottom: 0.25rem;">
+                                            <span style="font-weight: 600; color: var(--text-heading);">Alpaca Silk</span>
+                                            <span style="color: var(--text-light); font-weight: 700;">$728 (31%)</span>
+                                        </div>
+                                        <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
+                                            <div class="bg-gradient-gold" style="width: 31%; height: 100%; border-radius: 4px;"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Bar 3 -->
+                                    <div>
+                                        <div class="flex-between" style="font-size: 0.8rem; margin-bottom: 0.25rem;">
+                                            <span style="font-weight: 600; color: var(--text-heading);">Hand-Dyed Sock</span>
+                                            <span style="color: var(--text-light); font-weight: 700;">$620 (26%)</span>
+                                        </div>
+                                        <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
+                                            <div class="bg-gradient-gold" style="width: 26%; height: 100%; border-radius: 4px;"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Bar 4 -->
+                                    <div>
+                                        <div class="flex-between" style="font-size: 0.8rem; margin-bottom: 0.25rem;">
+                                            <span style="font-weight: 600; color: var(--text-heading);">Farmstead Aran</span>
+                                            <span style="color: var(--text-light); font-weight: 700;">$460 (18%)</span>
+                                        </div>
+                                        <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
+                                            <div class="bg-gradient-gold" style="width: 18%; height: 100%; border-radius: 4px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 

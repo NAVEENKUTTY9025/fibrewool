@@ -370,6 +370,7 @@
         }
         .social-btn.google i { color: #DB4437; }
         .social-btn.facebook i { color: #4267B2; }
+        .social-btn.apple i { color: var(--text-heading); }
 
         /* Register Link */
         .register-link {
@@ -471,6 +472,29 @@
         button, .control-btn, .social-btn, .login-btn {
             -webkit-tap-highlight-color: transparent;
         }
+    
+        /* Readability overrides: headings < 600, paragraph/subheadings 400-550 */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500 !important;
+        }
+        .subtitle, .hero-badge, .featured-tag, .team-role, .hour-day, .category-count, .popular-date {
+            font-weight: 550 !important;
+        }
+        .btn-primary, .btn-outline, .btn-light, .btn-apply, .btn-outline-light, .blog-btn, .btn-outline-dark, .btn-solid-dark {
+            font-weight: 550 !important;
+        }
+        .logo-text, .mobile-logo span {
+            font-weight: 550 !important;
+        }
+        .mobile-nav-link, .mobile-dropdown-btn, .mobile-theme-buttons button, .mobile-control-btn {
+            font-weight: 550 !important;
+        }
+        .col-stat-num, .col-stat-lbl, .stat-number, .stat-item {
+            font-weight: 550 !important;
+        }
+        .testi-author, .faq-question, .meta-info span, .timeline-year {
+            font-weight: 550 !important;
+        }
     </style>
 </head>
 <body>
@@ -488,7 +512,7 @@
             <i class="fas fa-circle-half-stroke"></i>
         </button>
         <button class="control-btn" id="rtlToggle" title="RTL/LTR Mode">
-            <i class="fas fa-language"></i>
+            <i class="fas fa-right-left"></i>
         </button>
     </div>
 
@@ -548,6 +572,10 @@
                 <button class="social-btn facebook" id="facebookLogin" type="button">
                     <i class="fab fa-facebook-f"></i>
                     <span>Facebook</span>
+                </button>
+                <button class="social-btn apple" id="appleLogin" type="button">
+                    <i class="fab fa-apple"></i>
+                    <span>Apple</span>
                 </button>
             </div>
 
@@ -708,9 +736,10 @@
             function handleFacebookLogin() {
                 showMessage('🔐 Facebook OAuth demo. In production environment, this would redirect to Facebook authentication.', false);
             }
-            
-            // Register link handler (just a demo pointer)
-           
+
+            function handleAppleLogin() {
+                showMessage('🔐 Apple OAuth demo. In production environment, this would redirect to Apple authentication.', false);
+            }
             
             // Attach login events
             if (loginBtn) {
@@ -729,12 +758,10 @@
             // Social login buttons
             const googleBtn = document.getElementById('googleLogin');
             const facebookBtn = document.getElementById('facebookLogin');
+            const appleBtn = document.getElementById('appleLogin');
             if (googleBtn) googleBtn.addEventListener('click', handleGoogleLogin);
             if (facebookBtn) facebookBtn.addEventListener('click', handleFacebookLogin);
-            
-            // Register link
-            const registerLink = document.getElementById('registerLink');
-            if (registerLink) registerLink.addEventListener('click', handleRegister);
+            if (appleBtn) appleBtn.addEventListener('click', handleAppleLogin);
             
             // Load saved credentials on page load
             loadSavedCredentials();

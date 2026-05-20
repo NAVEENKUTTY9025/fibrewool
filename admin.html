@@ -102,7 +102,7 @@
         .dashboard-card {
             background: var(--bg-card);
             border: 1px solid var(--card-border);
-            border-radius: 28px;
+            border-radius: 16px;
             transition: all 0.3s ease;
             box-shadow: var(--shadow-sm);
         }
@@ -111,6 +111,14 @@
             border-color: var(--accent-solid);
             box-shadow: var(--shadow-md);
             transform: translateY(-2px);
+        }
+
+        .stat-card {
+            border-left: 4px solid var(--accent-solid);
+        }
+        [dir="rtl"] .stat-card {
+            border-left: 1px solid var(--card-border);
+            border-right: 4px solid var(--accent-solid);
         }
         
         .badge-approved {
@@ -162,14 +170,14 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.85rem 1rem;
-            border-radius: 14px;
+            padding: 0.85rem 1.25rem;
             color: var(--text-body);
             transition: all 0.25s ease;
             font-weight: 500;
             margin-bottom: 0.25rem;
             cursor: pointer;
             text-decoration: none;
+            border-left: 3px solid transparent;
         }
         
         .sidebar-link i {
@@ -182,6 +190,7 @@
         .sidebar-link.active {
             background: var(--accent-soft);
             color: var(--accent-solid);
+            border-left: 3px solid var(--accent-solid);
         }
         
         .sidebar-link:hover i,
@@ -338,18 +347,14 @@
         }
         
         .sidebar-desktop {
-            width: 300px;
+            width: 280px;
             flex-shrink: 0;
         }
         
         .sidebar-sticky {
-            position: sticky;
-            top: 100px;
-            background: var(--bg-card);
-            border-radius: 28px;
-            padding: 1.5rem;
-            border: 1px solid var(--card-border);
-            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         
         .drawer-overlay {
@@ -413,7 +418,42 @@
         
         @media (min-width: 1025px) {
             .menu-toggle { display: none; }
-            .sidebar-desktop { display: block !important; }
+            .sidebar-desktop {
+                display: block !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 280px;
+                background: var(--sidebar-bg);
+                border-right: 1px solid var(--border-light);
+                padding: 2.5rem 1.5rem;
+                z-index: 1010;
+                overflow-y: auto;
+            }
+            .navbar {
+                left: 280px !important;
+                width: calc(100% - 280px) !important;
+            }
+            main {
+                margin-left: 280px !important;
+                max-width: calc(100% - 280px) !important;
+                padding: 2.5rem !important;
+            }
+            [dir="rtl"] .sidebar-desktop {
+                left: auto;
+                right: 0;
+                border-right: none;
+                border-left: 1px solid var(--border-light);
+            }
+            [dir="rtl"] .navbar {
+                left: 0 !important;
+                right: 280px !important;
+            }
+            [dir="rtl"] main {
+                margin-left: 0 !important;
+                margin-right: 280px !important;
+            }
         }
         
         /* Main Content Layout - Mobile Fix */
@@ -439,7 +479,7 @@
         
         .main-flex {
             display: flex;
-            gap: 1.8rem;
+            gap: 2.5rem;
             flex-direction: row;
         }
         
@@ -455,7 +495,7 @@
             min-width: 0;
             display: flex;
             flex-direction: column;
-            gap: 1.8rem;
+            gap: 2.5rem;
         }
         
         @media (max-width: 640px) {
@@ -505,7 +545,13 @@
         }
         
         .hidden {
-            display: none;
+            display: none !important;
+        }
+        
+        .user-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
         }
         
         .reveal {
@@ -710,6 +756,13 @@
         
         [dir="rtl"] .sidebar-link {
             flex-direction: row-reverse;
+            border-left: none;
+            border-right: 3px solid transparent;
+        }
+        [dir="rtl"] .sidebar-link.active,
+        [dir="rtl"] .sidebar-link:hover {
+            border-left: none;
+            border-right: 3px solid var(--accent-solid);
         }
         
         [dir="rtl"] .ml-auto {
@@ -745,6 +798,29 @@
                 padding: 1.2rem !important;
             }
         }
+    
+        /* Readability overrides: headings < 600, paragraph/subheadings 400-550 */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500 !important;
+        }
+        .subtitle, .hero-badge, .featured-tag, .team-role, .hour-day, .category-count, .popular-date {
+            font-weight: 550 !important;
+        }
+        .btn-primary, .btn-outline, .btn-light, .btn-apply, .btn-outline-light, .blog-btn, .btn-outline-dark, .btn-solid-dark {
+            font-weight: 550 !important;
+        }
+        .logo-text, .mobile-logo span {
+            font-weight: 550 !important;
+        }
+        .mobile-nav-link, .mobile-dropdown-btn, .mobile-theme-buttons button, .mobile-control-btn {
+            font-weight: 550 !important;
+        }
+        .col-stat-num, .col-stat-lbl, .stat-number, .stat-item {
+            font-weight: 550 !important;
+        }
+        .testi-author, .faq-question, .meta-info span, .timeline-year {
+            font-weight: 550 !important;
+        }
     </style>
 </head>
 <body>
@@ -763,7 +839,7 @@
             </div>
             <div class="flex-start">
                 <button id="rtl-toggle" class="icon-btn" title="RTL">
-                    <i class="fas fa-language"></i>
+                    <i class="fas fa-right-left"></i>
                 </button>
                 <button id="theme-toggle" class="icon-btn" title="Theme">
                     <i class="fas fa-circle-half-stroke"></i>

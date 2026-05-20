@@ -484,77 +484,599 @@
         .fiber-card:hover .fiber-img img { transform: scale(1.05); }
         .fiber-content { padding: 28px; }
 
-        .process { padding: 100px 0; background: var(--bg-alt); }
-        .timeline {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+        .process {
+            padding: 100px 0;
+            background: var(--bg-alt);
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s;
         }
-        .timeline-card {
+        .process-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto 60px;
+            padding: 0 40px;
+        }
+        .process-nav-line {
+            position: absolute;
+            top: 30px;
+            left: 80px;
+            right: 80px;
+            height: 4px;
+            background: rgba(127, 3, 113, 0.1);
+            z-index: 1;
+            border-radius: 2px;
+        }
+        .process-nav-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-solid) 100%);
+            border-radius: 2px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .process-nav-step {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2;
+            position: relative;
+            outline: none;
+            transition: transform 0.3s;
+            width: 90px;
+        }
+        .process-nav-step:hover {
+            transform: translateY(-3px);
+        }
+        .step-dot {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             background: var(--bg-card);
-            border-radius: 32px;
-            padding: 32px;
-            box-shadow: var(--shadow-md);
-            transition: 0.3s;
-            border-left: 4px solid var(--accent);
+            border: 3px solid rgba(127, 3, 113, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.3rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
         }
-        .timeline-num { font-size: 2.5rem; font-weight: 800; color: var(--accent-solid); margin-bottom: 16px; }
-        @media (max-width: 800px) { .timeline { grid-template-columns: 1fr; } }
+        .process-nav-step:hover .step-dot {
+            border-color: var(--accent-solid);
+            color: var(--accent-solid);
+            box-shadow: 0 0 15px rgba(127, 3, 113, 0.25);
+        }
+        .process-nav-step.active .step-dot {
+            background: var(--accent-solid);
+            border-color: var(--accent-solid);
+            color: var(--white);
+            box-shadow: 0 0 20px rgba(127, 3, 113, 0.45);
+            transform: scale(1.15);
+        }
+        .step-label {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-light);
+            transition: color 0.3s;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .process-nav-step.active .step-label {
+            color: var(--accent-solid);
+        }
+        .process-content-container {
+            background: var(--bg-card);
+            border-radius: 40px;
+            padding: 50px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(127, 3, 113, 0.08);
+            position: relative;
+            min-height: 480px;
+            overflow: hidden;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .process-panel {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .process-panel.active {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes panelFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .process-panel.active {
+            animation: panelFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .panel-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+        }
+        .panel-text .step-number {
+            font-size: 0.95rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-solid);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .panel-text .step-number::after {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-solid);
+            opacity: 0.4;
+        }
+        .panel-text h3 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--text-heading);
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+        .panel-text .lead {
+            font-size: 1.08rem;
+            color: var(--text-body);
+            line-height: 1.6;
+            margin-bottom: 28px;
+            opacity: 0.95;
+        }
+        .panel-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .panel-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
+            font-size: 0.98rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+        .panel-features li:last-child {
+            margin-bottom: 0;
+        }
+        .panel-features li i {
+            color: var(--accent-solid);
+            background: var(--accent-soft);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(127, 3, 113, 0.1);
+        }
+        .panel-features li strong {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .panel-media {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            height: 380px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(127, 3, 113, 0.1);
+        }
+        .panel-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .panel-media:hover img {
+            transform: scale(1.06);
+        }
+        .panel-stats-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, border-color 0.3s;
+        }
+        [data-theme="dark"] .panel-stats-overlay {
+            background: rgba(26, 26, 26, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.88rem;
+            border-bottom: 1px solid rgba(127, 3, 113, 0.08);
+            padding-bottom: 6px;
+        }
+        .stat-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        .stat-value {
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+        [dir="rtl"] .panel-text {
+            text-align: right;
+        }
+        [dir="rtl"] .panel-text .step-number::after {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+        [dir="rtl"] .process-nav-progress {
+            left: auto;
+            right: 0;
+        }
+        [dir="rtl"] .panel-features li i {
+            transform: scaleX(-1);
+        }
+        @media (max-width: 1024px) {
+            .process-content-container {
+                padding: 40px;
+            }
+            .process-panel.active {
+                grid-template-columns: 1.1fr 1fr;
+                gap: 35px;
+            }
+            .panel-media {
+                height: 350px;
+            }
+        }
+        @media (max-width: 850px) {
+            .process-nav {
+                padding: 0 20px;
+                margin-bottom: 45px;
+            }
+            .process-nav-line {
+                left: 60px;
+                right: 60px;
+            }
+            .process-panel.active {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .panel-media {
+                height: 340px;
+            }
+            .panel-text {
+                text-align: center;
+                align-items: center;
+            }
+            .panel-text .step-number {
+                justify-content: center;
+            }
+            .panel-features li {
+                text-align: left;
+            }
+            [dir="rtl"] .panel-features li {
+                text-align: right;
+            }
+        }
+        @media (max-width: 550px) {
+            .process-nav {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+                padding: 0;
+                margin-bottom: 35px;
+            }
+            .process-nav-line {
+                display: none;
+            }
+            .process-nav-step {
+                width: 100%;
+                padding: 0;
+            }
+            .step-dot {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1rem;
+            }
+            .step-label {
+                font-size: 0.78rem;
+                white-space: normal;
+                word-wrap: break-word;
+                margin-top: 8px;
+            }
+            .process-content-container {
+                padding: 24px;
+                border-radius: 30px;
+                min-height: auto;
+            }
+            .panel-text h3 {
+                font-size: 1.8rem;
+            }
+            .panel-media {
+                height: 300px;
+            }
+            .panel-stats-overlay {
+                padding: 16px;
+                bottom: 12px;
+                left: 12px;
+                right: 12px;
+            }
+        }
 
         .collection-new {
             padding: 100px 0;
-            background: var(--bg-alt);
+            background: var(--bg-main);
+            transition: background 0.3s;
         }
-        .showroom-grid {
+        .yarn-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
         }
-        .yarn-showcase {
+        .yarn-card {
             background: var(--bg-card);
-            border-radius: 48px;
+            border-radius: 32px;
+            border: 1px solid rgba(127, 3, 113, 0.08);
+            box-shadow: var(--shadow-sm);
             padding: 32px;
-            box-shadow: var(--shadow-lg);
-        }
-        .yarn-category {
-            margin-bottom: 32px;
-            border-bottom: 1px solid rgba(127,3,113,0.2);
-            padding-bottom: 20px;
-        }
-        .yarn-category:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .yarn-header {
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
+            min-height: 320px;
         }
-        .yarn-name { font-size: 1.4rem; font-weight: 700; color: var(--text-heading); }
-        .yarn-price { font-size: 1.6rem; font-weight: 800; color: var(--accent-solid); }
-        .yarn-detail { display: flex; gap: 20px; color: var(--text-light); font-size: 0.85rem; }
+        .yarn-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-solid);
+        }
+        .yarn-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-soft);
+            color: var(--accent-solid);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        [dir="rtl"] .yarn-badge {
+            right: auto;
+            left: 20px;
+        }
+        .yarn-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            background: var(--bg-alt);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+            color: var(--accent-solid);
+            transition: background 0.3s;
+        }
+        .yarn-card:hover .yarn-icon-wrapper {
+            background: var(--accent-soft);
+        }
+        .yarn-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 16px;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+        .yarn-card-specs {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px;
+        }
+        .yarn-card-specs li {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .yarn-card-specs li:last-child {
+            margin-bottom: 0;
+        }
+        .yarn-card-specs li i {
+            color: var(--accent-solid);
+            width: 16px;
+            text-align: center;
+        }
+        .yarn-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(127, 3, 113, 0.08);
+            padding-top: 18px;
+            margin-top: auto;
+        }
+        .yarn-card-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-solid);
+        }
         .btn-small {
             background: var(--accent-soft);
             color: var(--accent-solid);
             border: none;
-            padding: 6px 16px;
+            padding: 8px 18px;
             border-radius: 40px;
             font-weight: 600;
-            font-size: 0.7rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        .btn-small:hover { background: var(--accent-solid); color: white; }
-        .collection-cta {
-            background: linear-gradient(135deg, var(--accent), var(--accent-deep));
-            padding: 40px;
-            border-radius: 48px;
+        .btn-small:hover {
+            background: var(--accent-solid);
             color: white;
-            text-align: center;
+            transform: translateX(3px);
         }
-        .collection-cta h3 { color: white; margin-bottom: 16px; }
-        @media (max-width: 850px) {
-            .showroom-grid { grid-template-columns: 1fr; }
+        [dir="rtl"] .btn-small:hover {
+            transform: translateX(-3px);
+        }
+
+        .wholesale-section {
+            padding: 100px 0;
+            background: var(--bg-alt);
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s;
+        }
+        .wholesale-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .wholesale-content {
+            text-align: left;
+        }
+        .wholesale-content h2 {
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            letter-spacing: -0.015em;
+            font-weight: 800;
+        }
+        .wholesale-content p.lead {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .wholesale-benefits {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .wholesale-benefits li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            font-size: 0.98rem;
+            color: var(--text-light);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .wholesale-benefits li:last-child {
+            margin-bottom: 0;
+        }
+        .wholesale-benefits li i {
+            color: var(--accent-solid);
+            background: var(--accent-soft);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            font-size: 0.8rem;
+        }
+        .wholesale-card {
+            background: var(--bg-card);
+            border-radius: 40px;
+            padding: 45px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(127, 3, 113, 0.08);
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .wholesale-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-solid) 100%);
+        }
+        .wholesale-card h3 {
+            font-size: 1.65rem;
+            margin: 15px 0 12px;
+            color: var(--text-heading);
+            font-weight: 800;
+        }
+        .wholesale-card p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+        [dir="rtl"] .wholesale-content {
+            text-align: right;
+        }
+        @media (max-width: 900px) {
+            .wholesale-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .wholesale-content {
+                text-align: center;
+            }
+            .wholesale-benefits {
+                display: inline-block;
+                text-align: left;
+            }
+            [dir="rtl"] .wholesale-benefits {
+                text-align: right;
+            }
         }
 
         .gallery-pro {
@@ -748,6 +1270,29 @@
         @media (max-width: 600px) {
             .showcase-card { width: 100%; }
         }
+    
+        /* Readability overrides: headings < 600, paragraph/subheadings 400-550 */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500 !important;
+        }
+        .subtitle, .hero-badge, .featured-tag, .team-role, .hour-day, .category-count, .popular-date {
+            font-weight: 550 !important;
+        }
+        .btn-primary, .btn-outline, .btn-light, .btn-apply, .btn-outline-light, .blog-btn, .btn-outline-dark, .btn-solid-dark {
+            font-weight: 550 !important;
+        }
+        .logo-text, .mobile-logo span {
+            font-weight: 550 !important;
+        }
+        .mobile-nav-link, .mobile-dropdown-btn, .mobile-theme-buttons button, .mobile-control-btn {
+            font-weight: 550 !important;
+        }
+        .col-stat-num, .col-stat-lbl, .stat-number, .stat-item {
+            font-weight: 550 !important;
+        }
+        .testi-author, .faq-question, .meta-info span, .timeline-year {
+            font-weight: 550 !important;
+        }
     </style>
 </head>
 <body>
@@ -760,7 +1305,7 @@
             <div class="nav-menu">
                 <div class="dropdown"><a href="index.html" class="nav-link active">Home <i class="fas fa-chevron-down"></i></a><div class="dropdown-menu"><a href="index.html" class="dropdown-item">Home 1</a><a href="home2.html" class="dropdown-item">Home 2</a></div></div>
                 <a href="about.html" class="nav-link">About</a>
-                <a href="service.html" class="nav-link">Services</a>
+                <a href="services.html" class="nav-link">Services</a>
                 <a href="gallery.html" class="nav-link">Gallery</a>
                 <a href="blog.html" class="nav-link">Blog</a>
                 <a href="contact.html" class="nav-link">Contact</a>
@@ -768,7 +1313,7 @@
             </div>
             <div class="navbar-right">
                 <button class="theme-toggle" id="desktopThemeToggle"><i class="fas fa-circle-half-stroke"></i></button>
-                <button class="rtl-toggle" id="desktopRtlToggle"> <i class="fas fa-language"></i></button>
+                <button class="rtl-toggle" id="desktopRtlToggle"> <i class="fas fa-right-left"></i></button>
                 <a href="login.html" class="btn-outline"> Login</a>
                 <a href="register.html" class="btn-outline"> Register</a>
             </div>
@@ -801,7 +1346,7 @@
             </div>
             <div class="mobile-theme-buttons">
             <button id="mobileThemeToggle"><i class="fas fa-circle-half-stroke"></i> Dark/Light</button>
-            <button id="mobileRtlToggle"><i class="fas fa-language"></i> RTL/LTR</button>
+            <button id="mobileRtlToggle"><i class="fas fa-right-left"></i> RTL/LTR</button>
         </div>
         </div>
         
@@ -812,7 +1357,7 @@
         <div class="container">
             <div class="hero-grid">
                 <div><span class="hero-badge"><i class="fas fa-hand-sparkles"></i> Ethical. Local. Artisan.</span>
-                    <h1>Where Fiber <span>Becomes Story</span> — Local Yarn Mill</h1>
+                    <h1>Where Fiber <span>Becomes Story</span> Local Yarn Mill</h1>
                     <p style="font-size: 1.1rem; margin: 24px 0 32px; color: var(--text-light);">Small-batch wool, alpaca, and plant fibers. Sustainably sourced, traceable from flock to skein.</p>
                     <a href="#" class="btn-primary" style="padding: 14px 32px;"><i class="fas fa-leaf"></i> Discover Our Fiber</a>
                 </div>
@@ -822,10 +1367,271 @@
     </section>
 
     <section class="fibers" id="fibers"><div class="container"><div class="section-header"><span class="subtitle">Pure & Traceable</span><h2>Our Signature Fibers</h2></div><div class="fiber-grid"><div class="fiber-card"><div class="fiber-img"><img src="images/ho9.avif" alt="Merino"></div><div class="fiber-content"><i class="fas fa-cloud-moon" style="font-size: 2rem; color: var(--accent-solid); margin-bottom: 16px; display: block;"></i><h3>Merino Wool</h3><p>19.5 micron, superfine, perfect for garments.</p></div></div><div class="fiber-card"><div class="fiber-img"><img src="images/ho11.avif" alt="Alpaca"></div><div class="fiber-content"><i class="fas fa-mountain-sun" style="font-size: 2rem; color: var(--accent-solid); margin-bottom: 16px;"></i><h3>Baby Alpaca</h3><p>Luxurious halo, lightweight warmth.</p></div></div><div class="fiber-card"><div class="fiber-img"><img src="images/ho10.avif" alt="Linen"></div><div class="fiber-content"><i class="fas fa-feather" style="font-size: 2rem; color: var(--accent-solid); margin-bottom: 16px;"></i><h3>Linen & Hemp</h3><p>Botanical fibers, durable and breathable.</p></div></div></div></div></section>
+    <section class="process" id="process">
+        <div class="container">
+            <div class="section-header">
+                <span class="subtitle">Artisan Millwork</span>
+                <h2>The Journey from Fleece to Yarn</h2>
+                <p style="max-width: 600px; margin: 16px auto 0; color: var(--text-light); font-size: 1.05rem; line-height: 1.6;">Trace the transparent, ethical, and meticulous process behind our premium, small-batch yarn production.</p>
+            </div>
+            
+            <div class="process-nav">
+                <div class="process-nav-line">
+                    <div class="process-nav-progress" id="processProgress"></div>
+                </div>
+                <button class="process-nav-step active" data-step="1" aria-label="Step 1: Sourcing and Shearing">
+                    <span class="step-dot"><i class="fas fa-sheep"></i></span>
+                    <span class="step-label">01 Shearing</span>
+                </button>
+                <button class="process-nav-step" data-step="2" aria-label="Step 2: Washing and Carding">
+                    <span class="step-dot"><i class="fas fa-soap"></i></span>
+                    <span class="step-label">02 Washing</span>
+                </button>
+                <button class="process-nav-step" data-step="3" aria-label="Step 3: Spinning and Plying">
+                    <span class="step-dot"><i class="fas fa-dharmachakra"></i></span>
+                    <span class="step-label">03 Spinning</span>
+                </button>
+                <button class="process-nav-step" data-step="4" aria-label="Step 4: Natural Dyeing">
+                    <span class="step-dot"><i class="fas fa-fill-drip"></i></span>
+                    <span class="step-label">04 Dyeing</span>
+                </button>
+            </div>
 
-    <section class="process" id="process"><div class="container"><div class="section-header"><span class="subtitle">Artisan Millwork</span><h2>The Journey from Fleece to Yarn</h2></div><div class="timeline"><div class="timeline-card"><div class="timeline-num">01</div><h3>Sourcing & Shearing</h3><p>Regional family farms, humane shearing, and fleece selection.</p></div><div class="timeline-card"><div class="timeline-num">02</div><h3>Washing & Carding</h3><p>Biodegradable soap, gentle wash, carded into rovings.</p></div><div class="timeline-card"><div class="timeline-num">03</div><h3>Spinning & Plying</h3><p>Traditional woollen spinning, preserving loft and strength.</p></div><div class="timeline-card"><div class="timeline-num">04</div><h3>Natural Dyeing</h3><p>Indigo, madder, cochineal — small-batch low-impact dyes.</p></div></div></div></section>
+            <div class="process-content-container">
+                <!-- Step 1: Shearing -->
+                <div class="process-panel active" id="panel-1">
+                    <div class="panel-text">
+                        <span class="step-number">Step 01</span>
+                        <h3>Sourcing & Shearing</h3>
+                        <p class="lead">We select only the finest fleeces, working hand-in-hand with regional family farms committed to ethical animal husbandry and regenerative land stewardship.</p>
+                        <ul class="panel-features">
+                            <li><i class="fas fa-check"></i> <div><strong>Ethical Partnership:</strong> Direct sourcing from local families, ensuring fair compensation and shearing practices.</div></li>
+                            <li><i class="fas fa-check"></i> <div><strong>Humane Shearing:</strong> Conducted strictly in spring by certified shearers to prioritize sheep comfort.</div></li>
+                            <li><i class="fas fa-check"></i> <div><strong>Rigorous Sorting:</strong> Fleece is hand-skirted and categorized by micron width to guarantee superior softness.</div></li>
+                        </ul>
+                    </div>
+                    <div class="panel-media">
+                        <img src="images/ho1.avif" alt="Flock of sheep grazing in green pasture">
+                        <div class="panel-stats-overlay">
+                            <div class="stat-item">
+                                <span class="stat-label">Farm Origin</span>
+                                <span class="stat-value">Regional Family Farms</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Certification</span>
+                                <span class="stat-value">Humane Shearing Certified</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Fleece Grade</span>
+                                <span class="stat-value">Extra Fine (< 20 microns)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <section class="collection-new" id="collection"><div class="container"><div class="section-header"><span class="subtitle">Current Collection</span><h2>Artisan Yarn Showroom</h2></div><div class="showroom-grid"><div class="yarn-showcase"><div class="yarn-category"><div class="yarn-header"><span class="yarn-name">Merino DK Undyed</span><span class="yarn-price">$18.50</span></div><div class="yarn-detail"><span>🧶 100g / 246yds</span><span>🐑 Fine merino</span></div><button class="btn-small" style="margin-top: 12px;">Shop Now →</button></div><div class="yarn-category"><div class="yarn-header"><span class="yarn-name">Alpaca Silk Worsted</span><span class="yarn-price">$26.00</span></div><div class="yarn-detail"><span>🦙 100g / 218yds</span><span>💎 Silk blend</span></div><button class="btn-small" style="margin-top: 12px;">Shop Now →</button></div><div class="yarn-category"><div class="yarn-header"><span class="yarn-name">Farmstead Aran</span><span class="yarn-price">$23.00</span></div><div class="yarn-detail"><span>🌾 150g / 300yds</span><span>🧵 Heavy worsted</span></div><button class="btn-small" style="margin-top: 12px;">Shop Now →</button></div><div class="yarn-category"><div class="yarn-header"><span class="yarn-name">Hand-Dyed Sock</span><span class="yarn-price">$31.00</span></div><div class="yarn-detail"><span>🎨 100g / 460yds</span><span>🌈 Small batch dye</span></div><button class="btn-small" style="margin-top: 12px;">Shop Now →</button></div></div><div class="collection-cta"><i class="fas fa-tag" style="font-size: 2.5rem; margin-bottom: 20px; display: inline-block;"></i><h3>Wholesale & Custom Dyeing</h3><p style="margin-bottom: 24px; opacity: 0.9;">Volume pricing available for studios & shops. Natural & undyed bases in stock.</p><a href="#" class="btn-primary" style="background: white; color: var(--accent-solid);">Request Quote →</a></div></div></div></section>
+                <!-- Step 2: Washing -->
+                <div class="process-panel" id="panel-2">
+                    <div class="panel-text">
+                        <span class="step-number">Step 02</span>
+                        <h3>Washing & Carding</h3>
+                        <p class="lead">Raw fleece undergoes a gentle wash to clean debris while preserving the natural properties of the fibers, followed by carding to align them into fluffy rovings.</p>
+                        <ul class="panel-features">
+                            <li><i class="fas fa-check"></i> <div><strong>Eco-friendly Wash:</strong> Using zero harsh chemicals and organic, biodegradable soaps.</div></li>
+                            <li><i class="fas fa-check"></i> <div><strong>Water Conservation:</strong> Closed-loop water filtration system reclaiming up to 70% of wash water.</div></li>
+                            <li><i class="fas fa-check"></i> <div><strong>Artisan Carding:</strong> Drum-carding that maintains the light, airy volume of wool fibers.</div></li>
+                        </ul>
+                    </div>
+                    <div class="panel-media">
+                        <img src="images/ho9.avif" alt="Fine carded wool rovings ready for spinning">
+                        <div class="panel-stats-overlay">
+                            <div class="stat-item">
+                                <span class="stat-label">Soap Type</span>
+                                <span class="stat-value">100% Biodegradable Organic</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Water Reclaim Rate</span>
+                                <span class="stat-value">70% Filtration & Reuse</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Roving Quality</span>
+                                <span class="stat-value">Ultra-lofty & Uniform</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Spinning -->
+                <div class="process-panel" id="panel-3">
+                    <div class="panel-text">
+                        <span class="step-number">Step 03</span>
+                        <h3>Spinning & Plying</h3>
+                        <p class="lead">Using heritage spinning techniques, we spin the rovings into single strands, then ply them together to achieve balanced, strong, and highly durable yarn.</p>
+                        <ul class="panel-features">
+                            <li><i class="fas fa-check"></i> <div><strong>Heritage Craft:</strong> Custom ring-spinning that preserves the natural crimp and insulation.</div></li>
+                            <li><i class="fas fa-check"></i> <div><strong>Optimal Strength:</strong> Multi-plying options crafted for robust stitch definition and wear.</div></li>
+                            <li><i class="fas fa-check"></i> <div><strong>Quality Checks:</strong> Ongoing laser diameter measurement for exceptional thickness consistency.</div></li>
+                        </ul>
+                    </div>
+                    <div class="panel-media">
+                        <img src="images/ho6.avif" alt="Artisan spinning wheel spinning wool thread">
+                        <div class="panel-stats-overlay">
+                            <div class="stat-item">
+                                <span class="stat-label">Spin Technology</span>
+                                <span class="stat-value">Traditional Ring Spinning</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Plies Produced</span>
+                                <span class="stat-value">2-ply / 3-ply / Aran</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Diameter Consistency</span>
+                                <span class="stat-value">99.2% Uniform Grade</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Dyeing -->
+                <div class="process-panel" id="panel-4">
+                    <div class="panel-text">
+                        <span class="step-number">Step 04</span>
+                        <h3>Natural Dyeing</h3>
+                        <p class="lead">Our small-batch botanical dyeing uses hand-gathered herbs, roots, and minerals to infuse each batch with deep, earthy color profiles that reflect our local landscape.</p>
+                        <ul class="panel-features">
+                            <li><i class="fas fa-check"></i> <div><strong>Botanical Pigments:</strong> Hand-crafted dye pots using indigo, madder root, weld, and walnut hulls.</div></li>
+                            <li><i class="fas fa-check"></i> <div><strong>Metal-Free Mordants:</strong> Safe, non-toxic organic compounds that bind colors permanently.</div></li>
+                            <li><i class="fas fa-check"></i> <div><strong>Small-Batch Variety:</strong> Hand-dyed in small copper kettles, ensuring unique artistic color play.</div></li>
+                        </ul>
+                    </div>
+                    <div class="panel-media">
+                        <img src="images/ho4.avif" alt="Natural dye laboratory pots with botanical colors">
+                        <div class="panel-stats-overlay">
+                            <div class="stat-item">
+                                <span class="stat-label">Dye Material</span>
+                                <span class="stat-value">100% Plant & Mineral Base</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Vat Method</span>
+                                <span class="stat-value">Traditional Copper Kettles</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Carbon Footprint</span>
+                                <span class="stat-value">Neutral Small-Batch Process</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="collection-new" id="collection">
+        <div class="container">
+            <div class="section-header">
+                <span class="subtitle">Current Collection</span>
+                <h2>Artisan Yarn Showroom</h2>
+                <p style="max-width: 600px; margin: 16px auto 0; color: var(--text-light); font-size: 1.05rem; line-height: 1.6;">Explore our curated range of small-batch, ethically sourced, and hand-finished premium yarns.</p>
+            </div>
+            
+            <div class="yarn-grid">
+                <!-- Card 1 -->
+                <div class="yarn-card">
+                    <span class="yarn-badge">Undyed</span>
+                    <div>
+                        <div class="yarn-icon-wrapper"><i class="fas fa-scroll"></i></div>
+                        <h3>Merino DK Undyed</h3>
+                        <ul class="yarn-card-specs">
+                            <li><i class="fas fa-weight-hanging"></i> 100g / 246 yds</li>
+                            <li><i class="fas fa-sheep"></i> Fine Merino</li>
+                            <li><i class="fas fa-tint-slash"></i> Natural Cream</li>
+                        </ul>
+                    </div>
+                    <div class="yarn-card-footer">
+                        <span class="yarn-card-price">$18.50</span>
+                        <a href="#" class="btn-small">Shop Now <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="yarn-card">
+                    <span class="yarn-badge">Silk Blend</span>
+                    <div>
+                        <div class="yarn-icon-wrapper"><i class="fas fa-gem"></i></div>
+                        <h3>Alpaca Silk Worsted</h3>
+                        <ul class="yarn-card-specs">
+                            <li><i class="fas fa-weight-hanging"></i> 100g / 218 yds</li>
+                            <li><i class="fas fa-mountain"></i> Baby Alpaca & Silk</li>
+                            <li><i class="fas fa-sparkles"></i> Luxurious Halo</li>
+                        </ul>
+                    </div>
+                    <div class="yarn-card-footer">
+                        <span class="yarn-card-price">$26.00</span>
+                        <a href="#" class="btn-small">Shop Now <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="yarn-card">
+                    <span class="yarn-badge">Aran Weight</span>
+                    <div>
+                        <div class="yarn-icon-wrapper"><i class="fas fa-wheat-awn"></i></div>
+                        <h3>Farmstead Aran</h3>
+                        <ul class="yarn-card-specs">
+                            <li><i class="fas fa-weight-hanging"></i> 150g / 300 yds</li>
+                            <li><i class="fas fa-seedling"></i> Local Corriedale</li>
+                            <li><i class="fas fa-shield-halved"></i> Muted Heather</li>
+                        </ul>
+                    </div>
+                    <div class="yarn-card-footer">
+                        <span class="yarn-card-price">$23.00</span>
+                        <a href="#" class="btn-small">Shop Now <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="yarn-card">
+                    <span class="yarn-badge">Hand-Dyed</span>
+                    <div>
+                        <div class="yarn-icon-wrapper"><i class="fas fa-palette"></i></div>
+                        <h3>Hand-Dyed Sock</h3>
+                        <ul class="yarn-card-specs">
+                            <li><i class="fas fa-weight-hanging"></i> 100g / 460 yds</li>
+                            <li><i class="fas fa-rainbow"></i> Small Batch Indigo</li>
+                            <li><i class="fas fa-sock"></i> Nylon/Merino Blend</li>
+                        </ul>
+                    </div>
+                    <div class="yarn-card-footer">
+                        <span class="yarn-card-price">$31.00</span>
+                        <a href="#" class="btn-small">Shop Now <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="wholesale-section" id="wholesale">
+        <div class="container">
+            <div class="wholesale-grid">
+                <div class="wholesale-content">
+                    <span class="subtitle">Wholesale & Studios</span>
+                    <h2>Custom Dyeing & Bulk Ordering</h2>
+                    <p class="lead">We collaborate with independent dye studios, local boutiques, and commercial fiber brands to deliver premium bases and custom processing services.</p>
+                    <ul class="wholesale-benefits">
+                        <li><i class="fas fa-check"></i> <div><strong>Volume Pricing:</strong> Tiered discounts starting from small-batch minimums (20kg).</div></li>
+                        <li><i class="fas fa-check"></i> <div><strong>Custom Dye Matching:</strong> Precision botanical matching in our copper dye kettle lab.</div></li>
+                        <li><i class="fas fa-check"></i> <div><strong>Traceable Sourcing:</strong> 100% certified farm documentation matching your dye lots.</div></li>
+                    </ul>
+                </div>
+                
+                <div class="wholesale-card">
+                    <i class="fas fa-tags" style="font-size: 3rem; color: var(--accent-solid); margin-bottom: 20px; display: inline-block;"></i>
+                    <h3>Partner With Our Mill</h3>
+                    <p>Volume pricing, custom fiber blending, and bespoke natural dyeing. Let us prepare the perfect bases for your creative projects.</p>
+                    <a href="#" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px 28px;"><i class="fas fa-file-contract"></i> Request Wholesale Quote</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section class="gallery-pro" id="gallery-pro"><div class="container"><div class="section-header"><span class="subtitle">Visual Essay</span><h2>Inside the Mill & Studio</h2></div><div class="curated-gallery"><div class="gallery-pro-card span-row-2"><img src="images/ho1.avif" alt="Sheep"><div class="gallery-info"><h4>Happy Flocks</h4><span>Regenerative farms</span></div></div><div class="gallery-pro-card span-2"><img src="images/ho2.avif" alt="Knitting"><div class="gallery-info"><h4>Knitter's Haven</h4><span>Handcrafted stitches</span></div></div><div class="gallery-pro-card span-row-2"><img src="images/ho4.avif" alt="Dye pots"><div class="gallery-info"><h4>Natural Dye Lab</h4><span>Botanical alchemy</span></div></div><div class="gallery-pro-card"><img src="images/ho5.avif" alt="Yarn skeins"><div class="gallery-info"><h4>Fresh Skeins</h4><span>Ready to ship</span></div></div><div class="gallery-pro-card"><img src="images/ho6.avif" alt="Spinning"><div class="gallery-info"><h4>Spinning Wheel</h4><span>Heritage craft</span></div></div></div></div></section>
 
@@ -905,6 +1711,40 @@
                 });
             }
             
+            // Artisan Millwork Process Navigation
+            const processSteps = document.querySelectorAll('.process-nav-step');
+            const processPanels = document.querySelectorAll('.process-panel');
+            const progressLine = document.getElementById('processProgress');
+            
+            function updateProcess(stepIndex) {
+                processSteps.forEach((btn, idx) => {
+                    if (idx === stepIndex) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                processPanels.forEach((panel, idx) => {
+                    if (idx === stepIndex) {
+                        panel.classList.add('active');
+                    } else {
+                        panel.classList.remove('active');
+                    }
+                });
+                
+                if (progressLine && processSteps.length > 1) {
+                    const pct = (stepIndex / (processSteps.length - 1)) * 100;
+                    progressLine.style.width = `${pct}%`;
+                }
+            }
+            
+            processSteps.forEach((btn, idx) => {
+                btn.addEventListener('click', () => {
+                    updateProcess(idx);
+                });
+            });
+            
             // Scroll to top
             const scrollBtn = document.getElementById('scrollTopBtn');
             window.addEventListener('scroll', () => {
@@ -916,7 +1756,7 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
             }, { threshold: 0.15 });
-            document.querySelectorAll('.fiber-card, .timeline-card, .yarn-showcase, .collection-cta, .gallery-pro-card, .showcase-card, .hero-grid>div, .section-header').forEach(el => {
+            document.querySelectorAll('.fiber-card, .process-nav-step, .process-content-container, .yarn-card, .wholesale-content, .wholesale-card, .gallery-pro-card, .showcase-card, .hero-grid>div, .section-header').forEach(el => {
                 el.classList.add('animate-once');
                 observer.observe(el);
             });

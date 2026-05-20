@@ -813,6 +813,29 @@
             transition: opacity 0.7s ease, transform 0.7s ease;
         }
         .animate-once.visible { opacity: 1; transform: translateY(0); }
+    
+        /* Readability overrides: headings < 600, paragraph/subheadings 400-550 */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500 !important;
+        }
+        .subtitle, .hero-badge, .featured-tag, .team-role, .hour-day, .category-count, .popular-date {
+            font-weight: 550 !important;
+        }
+        .btn-primary, .btn-outline, .btn-light, .btn-apply, .btn-outline-light, .blog-btn, .btn-outline-dark, .btn-solid-dark {
+            font-weight: 550 !important;
+        }
+        .logo-text, .mobile-logo span {
+            font-weight: 550 !important;
+        }
+        .mobile-nav-link, .mobile-dropdown-btn, .mobile-theme-buttons button, .mobile-control-btn {
+            font-weight: 550 !important;
+        }
+        .col-stat-num, .col-stat-lbl, .stat-number, .stat-item {
+            font-weight: 550 !important;
+        }
+        .testi-author, .faq-question, .meta-info span, .timeline-year {
+            font-weight: 550 !important;
+        }
     </style>
 </head>
 <body>
@@ -839,7 +862,7 @@
             </div>
             <div class="navbar-right">
                 <button class="theme-toggle" id="desktopThemeToggle"><i class="fas fa-circle-half-stroke"></i></button>
-                <button class="rtl-toggle" id="desktopRtlToggle"> <i class="fas fa-language"></i></button>
+                <button class="rtl-toggle" id="desktopRtlToggle"> <i class="fas fa-right-left"></i></button>
                 <a href="login.html" class="btn-outline">Login</a>
                 <a href="register.html" class="btn-outline">Register</a>
             </div>
@@ -869,7 +892,7 @@
               <div class="mobile-controls-section">
             <div class="mobile-theme-buttons">
                 <button id="mobileThemeToggle"><i class="fas fa-circle-half-stroke"></i> <span>Dark / Light</span></button>
-                <button id="mobileRtlToggle"><i class="fas fa-language"></i> <span>RTL / LTR</span></button>
+                <button id="mobileRtlToggle"><i class="fas fa-right-left"></i> <span>RTL / LTR</span></button>
             </div>
         </div>
         </div>
